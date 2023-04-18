@@ -1,0 +1,32 @@
+− Admin
+- Melakukan login v
+- Mengelola profil v
+- Mengelola data wilayah Kota Kediri (insert, delete, ubah) v
+- Mengelola data petugas v
+- Mengelola data bencana sesuai persebaran wilayah (crud) v
+
+− Petugas
+- Melakukan login
+- Mengelola profil
+- Mengelola data map & grafik bencana alam dan non alam sesuai wilayah
+- Melakukan cetak data bencana
+
+− Masyarakat
+- Melihat peta persebaran bencana wilayah Kota Kediri
+- Melihat grafik bencana alam atau non alam
+- Melihat informasi mengenai bencana non alam dan bencana alam
+
+Ref
+Admin
+-login
+-profil
+
+Petugas
+-login
+-profil
+
+Masyarakat
+-
+
+Halaman Dashboard
+- Peta
