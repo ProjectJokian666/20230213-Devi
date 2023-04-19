@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
+use App\Models\BencanaPerWilayah;
+use App\Models\DataBencanaPerWilayah;
 use App\Models\Wilayah;
 
 class WilayahController extends Controller
@@ -101,9 +104,27 @@ class WilayahController extends Controller
             if (Auth()->User()->role!='Admin') {
                 return redirect('/');
             }
+            $data_file = Wilayah::find($request->id);
+            if (file_exists("Data_Wilayah/".$data_file->file_wilayah)) {
+                unlink("Data_Wilayah/".$data_file->file_wilayah);
+            }
+            
             $data = Wilayah::where('id','=',$request->id)->delete();
+            DB::statement('alter table wilayah auto_increment=0');
+            
+            $data_per_wilayah = BencanaPerWilayah::where('id_wilayah','=',$request->id)->get();
+            foreach ($data_per_wilayah as $dpw) {
+                DataBencanaPerWilayah::where('id_bencana_per_wilayah','=',$dpw->id_bencana_per_wilayah)->delete();
+            }
+
+            $hapus_data_bencana_per_wilayah = BencanaPerWilayah::where('id_wilayah','=',$request->id)->get();
+            foreach ($hapus_data_bencana_per_wilayah as $hdbpw) {
+                BencanaPerWilayah::where('id_bencana_per_wilayah','=',$hdbpw->id_bencana_per_wilayah)->delete();
+                DB::statement('alter table bencana_per_wilayah auto_increment=0');
+            }
+            
             if ($data) {
-                return redirect('admin/wilayah')->with('sukses','Data berhasil dihapus');
+                return redirect('admin/wilayah')->with('sukses','Data berhasil dihapus dan Data yang bersangkutan akan dihapus');
             }
             else{
                 return redirect('admin/wilayah')->with('gagal','Data gagal dihapus');

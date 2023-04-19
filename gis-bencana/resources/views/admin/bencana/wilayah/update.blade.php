@@ -1,28 +1,33 @@
-<div class="modal fade" id="update_petugas_{{$bencana->id}}" tabindex="-1">
+<div class="modal fade" id="update_{{$w->id_bencana_per_wilayah}}" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
 
       <div class="modal-header">
-        <h5 class="modal-title">Ubah Data Petugas</h5>
+        <h5 class="modal-title">Ubah Data Bencana Per Wilayah</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      
-      <form action="{{url('admin/update_bencana')}}" method="POST">
+      @if($data['data_wilayah_show']==null)
+      <div class="modal-body">
+        Data Wilayah Sudah Terinput Semua Atau Masih Kosong!!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">BATAL</button>
+        <a href="{{url('admin/wilayah')}}" type="button" class="btn btn-primary">KE HALAMAN WILAYAH</a>
+      </div>
+      @else
+      <form action="{{url('admin/bencana/wilayah',$data['bencana']->id)}}" method="POST">
         @csrf
         @method('patch')
+        <input type="hidden" name="id" value="{{$w->id_bencana_per_wilayah}}">
         <div class="modal-body">
-          <input type="hidden" name="id" value="{{$bencana->id}}">
           <div class="row mb-3">
-            <label for="bencana" class="col-sm-3 col-form-label">Bencana</label>
+            <label for="wilayah" class="col-sm-3 col-form-label">Wilayah</label>
             <div class="col-sm-9">
-              <input type="text" name="bencana" class="form-control" placeholder="Nama Bencana" value="{{$bencana->nama_bencana}}">
-            </div>
-          </div>
-
-          <div class="row mb-3">
-            <label for="deskripsi" class="col-sm-3 col-form-label">Deskripsi</label>
-            <div class="col-sm-9">
-              <textarea class="form-control" placeholder="Deskripsi Bencana" id="deskripsi" name="deskripsi" style="height: 100px;">{{$bencana->deskripsi_bencana}}</textarea>
+              <select name="wilayah" class="form-control">
+                @foreach($data['data_wilayah_show'] as $dws)
+                <option value="{{$dws['id']}}">{{$dws['nama_wilayah']}}</option>
+                @endforeach
+              </select>
             </div>
           </div>
 
@@ -30,11 +35,11 @@
 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">BATAL</button>
-          <button type="submit" class="btn btn-primary">UBAH</button>
+          <button type="submit" class="btn btn-primary">SIMPAN</button>
         </div>
 
       </form>
-
+      @endif
     </div>
   </div>
 </div>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 use App\Models\Bencana;
 use App\Models\Wilayah;
@@ -81,6 +82,7 @@ class BencanaController extends Controller
                 return redirect('/');
             }
             $data = Bencana::where('id','=',$request->id)->delete();
+            DB::statement('alter table bencana auto_increment=0');
             if ($data) {
                 return redirect('admin/bencana')->with('sukses','Data berhasil dihapus');
             }
@@ -144,6 +146,51 @@ class BencanaController extends Controller
             }
             else{
                 return redirect('admin/bencana/wilayah/'.$id)->with('gagal','Data gagal ditambahkan');
+            }
+        }
+        else{
+            return redirect('login');
+        }
+    }
+
+    public function patch_wilayah(Request $request,$id)
+    {
+        // dd($request,$id);
+        if (Auth::check()) {
+            if (Auth()->User()->role!='Admin') {
+                return redirect('/');
+            }
+            
+            $ubah_bencana_per_wilayah = BencanaPerWilayah::where('id_bencana_per_wilayah','=',$request->id)->update([
+                'id_wilayah' => $request->wilayah,
+            ]);
+            
+            if ($ubah_bencana_per_wilayah) {
+                return redirect('admin/bencana/wilayah/'.$id)->with('sukses','Data berhasil diubah');
+            }
+            else{
+                return redirect('admin/bencana/wilayah/'.$id)->with('gagal','Data gagal diubah');
+            }
+        }
+        else{
+            return redirect('login');
+        }
+    }
+
+    public function delete_wilayah(Request $request,$id){
+        // dd($request,$id);
+        if (Auth::check()) {
+            if (Auth()->User()->role!='Admin') {
+                return redirect('/');
+            }
+            $hapus_bencana_per_wilayah = BencanaPerWilayah::where('id_bencana_per_wilayah','=',$request->id)->delete();
+            DB::statement('alter table bencana_per_wilayah auto_increment=0');
+            $hapus_data_bencana_per_wilayah = DataBencanaPerWilayah::where('id_bencana_per_wilayah','=',$request->id)->delete();
+            if ($hapus_bencana_per_wilayah) {
+                return redirect('admin/bencana/wilayah/'.$id)->with('sukses','Data berhasil dihapus');
+            }
+            else{
+                return redirect('admin/bencana/wilayah/'.$id)->with('gagal','Data gagal dihapus');
             }
         }
         else{

@@ -24,36 +24,42 @@
 			<div class="card">
 				<div class="card-body">
 					<div class="d-flex mt-4 mb-4 justify-content-between">
-						<h5>Tabel Wilayah {{$data['bencana']->nama_bencana}}</h5>
-						<div>
-							<a href="{{url('admin/bencana')}}" type="button" class="btn btn-sm btn-secondary">KEMBALI</a>
-							<button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#create_data_per_wilayah">TAMBAH DATA</button>
-						</div>
-						@include('admin.bencana.wilayah.create')
+						<h5>Tabel Bencana</h5>
 					</div>
 					<!-- Default Table -->
 					<table class="table datatable table-sm text-center">
 						<thead>
 							<tr>
 								<th scope="col">#</th>
-								<th scope="col">Wilayah</th>
-								<th scope="col">Jumlah Terjadi</th>
+								<th scope="col">Nama</th>
+								<th scope="col">Deskripsi</th>
 								<th scope="col">#</th>
 							</tr>
 						</thead>
 						<tbody>
-							@foreach($data['wilayah'] as $w)
+							@foreach($data['bencana'] as $bencana)
 							<tr>
 								<td>{{$loop->iteration}}</td>
-								<td>{{$w->wilayah->nama_wilayah}}</td>
+								<td>{{$bencana->nama_bencana}}</td>
 								<td>
-									{{$w->data_per_wilayah->count()}}
+									{{
+										strlen($bencana->deskripsi_bencana)==0
+										?
+										"kosong"
+										:
+										(
+										strlen($bencana->deskripsi_bencana)>=30
+										?
+										substr($bencana->deskripsi_bencana,0,30).'...'
+										:
+										$bencana->deskripsi_bencana
+										)
+									}}
 								</td>
 								<td>
-									<button type="button" class="btn btn-sm btn-info text-white" data-bs-toggle="modal" data-bs-target="#update_{{$w->id_bencana_per_wilayah}}">UBAH DATA</button>
-									@include('admin.bencana.wilayah.update')
-									<button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete_data_{{$w->id_bencana_per_wilayah}}">HAPUS DATA</button>
-									@include('admin.bencana.wilayah.delete')
+									<button type="button" class="btn btn-sm btn-info text-white" data-bs-toggle="modal" data-bs-target="#update_petugas_{{$bencana->id}}">UBAH DATA</button>
+									@include('petugas.bencana.update')
+									<a href="{{url('petugas/bencana/wilayah',$bencana->id)}}" class="btn btn-sm btn-success">WILAYAH</a>
 								</td>
 							</tr>
 							@endforeach

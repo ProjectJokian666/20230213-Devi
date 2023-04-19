@@ -26,10 +26,8 @@
 					<div class="d-flex mt-4 mb-4 justify-content-between">
 						<h5>Tabel Wilayah {{$data['bencana']->nama_bencana}}</h5>
 						<div>
-							<a href="{{url('admin/bencana')}}" type="button" class="btn btn-sm btn-secondary">KEMBALI</a>
-							<button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#create_data_per_wilayah">TAMBAH DATA</button>
+							<a href="{{url('petugas/bencana')}}" type="button" class="btn btn-sm btn-secondary">KEMBALI</a>
 						</div>
-						@include('admin.bencana.wilayah.create')
 					</div>
 					<!-- Default Table -->
 					<table class="table datatable table-sm text-center">
@@ -47,13 +45,19 @@
 								<td>{{$loop->iteration}}</td>
 								<td>{{$w->wilayah->nama_wilayah}}</td>
 								<td>
-									{{$w->data_per_wilayah->count()}}
+									<?php 
+									$count = 0;
+									foreach($w->data_per_wilayah as $dpw){
+										$count+=$dpw->jumlah;
+									}
+									echo $count;
+									?>
 								</td>
 								<td>
-									<button type="button" class="btn btn-sm btn-info text-white" data-bs-toggle="modal" data-bs-target="#update_{{$w->id_bencana_per_wilayah}}">UBAH DATA</button>
-									@include('admin.bencana.wilayah.update')
-									<button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete_data_{{$w->id_bencana_per_wilayah}}">HAPUS DATA</button>
-									@include('admin.bencana.wilayah.delete')
+									<form action="{{url('petugas/bencana/wilayah',$w->id_bencana)}}" method="POST">
+										@csrf
+										<button type="submit" name="wilayah" value="{{$w->id_wilayah}}" class="btn btn-sm btn-info text-white">LIHAT DATA</button>
+									</form>
 								</td>
 							</tr>
 							@endforeach

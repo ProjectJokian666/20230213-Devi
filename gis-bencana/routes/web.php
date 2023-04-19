@@ -13,6 +13,8 @@ use App\Http\Controllers\Admin\BencanaController as AdminBencana;
 use App\Http\Controllers\Admin\BencanaPerWilayahController as AdminBencanaPerWilayah;
 
 use App\Http\Controllers\PetugasController as Petugas;
+use App\Http\Controllers\Petugas\WilayahController as PetugasWilayah;
+use App\Http\Controllers\Petugas\BencanaController as PetugasBencana;
 
 use App\Http\Controllers\Guest\PetaController as Peta;
 use App\Http\Controllers\Guest\GrafikController as Grafik;
@@ -53,6 +55,8 @@ Route::middleware('auth')->group(function(){
 
             Route::get('wilayah/{id}',[AdminBencana::class,'wilayah'])->name('.wilayah');
             Route::post('wilayah/{id}',[AdminBencana::class,'add_wilayah'])->name('.add_wilayah');
+            Route::patch('wilayah/{id}',[AdminBencana::class,'patch_wilayah'])->name('.patch_wilayah');
+            Route::delete('wilayah/{id}',[AdminBencana::class,'delete_wilayah'])->name('.delete_wilayah');
         });
 
         Route::post('add_bencana',[AdminBencana::class,'add_bencana'])->name('.add_bencana');
@@ -63,9 +67,23 @@ Route::middleware('auth')->group(function(){
         Route::post('add_wilayah',[AdminWilayah::class,'add_wilayah'])->name('.add_wilayah');
         Route::patch('update_wilayah',[AdminWilayah::class,'update_wilayah'])->name('.update_wilayah');
         Route::delete('delete_wilayah',[AdminWilayah::class,'delete_wilayah'])->name('.delete_wilayah');
-        
     });
+    Route::prefix('petugas')->name('petugas')->group(function(){
+        Route::get('',[Petugas::class,'petugas']);
 
-    Route::get('petugas',[Petugas::class,'petugas'])->name('petugas');
+        Route::prefix('bencana')->name('.bencana')->group(function(){
+            Route::get('',[PetugasBencana::class,'bencana']);
+
+            Route::get('wilayah/{id}',[PetugasBencana::class,'wilayah'])->name('.wilayah');
+            Route::post('wilayah/{id}',[PetugasBencana::class,'show_wilayah'])->name('.show_wilayah');
+            Route::patch('wilayah/{id}',[PetugasBencana::class,'update_wilayah'])->name('.update_wilayah');
+            Route::patch('wilayah/{id}/ubah',[PetugasBencana::class,'ubah_wilayah'])->name('.ubah_wilayah');
+            Route::delete('wilayah/{id}',[PetugasBencana::class,'delete_wilayah'])->name('.delete_wilayah');
+        });
+
+        Route::patch('update_bencana',[PetugasBencana::class,'update_bencana'])->name('.update_bencana');
+
+        Route::get('wilayah',[PetugasWilayah::class,'wilayah'])->name('.wilayah');
+        Route::patch('update_wilayah',[PetugasWilayah::class,'update_wilayah'])->name('.update_wilayah');
+    });
 });
-
