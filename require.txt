@@ -6,8 +6,8 @@
 - Mengelola data bencana sesuai persebaran wilayah (crud) v
 
 − Petugas
-- Melakukan login
-- Mengelola profil
+- Melakukan login v
+- Mengelola profil v
 - Mengelola data map & grafik bencana alam dan non alam sesuai wilayah
 - Melakukan cetak data bencana
 

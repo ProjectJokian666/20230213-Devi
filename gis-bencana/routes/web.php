@@ -68,6 +68,7 @@ Route::middleware('auth')->group(function(){
         Route::patch('update_wilayah',[AdminWilayah::class,'update_wilayah'])->name('.update_wilayah');
         Route::delete('delete_wilayah',[AdminWilayah::class,'delete_wilayah'])->name('.delete_wilayah');
     });
+    
     Route::prefix('petugas')->name('petugas')->group(function(){
         Route::get('',[Petugas::class,'petugas']);
 
