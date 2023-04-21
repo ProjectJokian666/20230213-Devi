@@ -2,6 +2,83 @@
 
 @push('csss')
 <link href="{{asset('mapbox/mapbox-gl.css')}}" rel="stylesheet">
+<style type="text/css">
+	.legend {
+		background-color: #fff;
+		border-radius: 3px;
+		bottom: 30px;
+		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+		font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+		padding: 10px;
+		position: absolute;
+		right: 10px;
+		z-index: 1;
+	}
+
+	.legend h4 {
+		margin: 0 0 10px;
+	}
+
+	.legend div span {
+		border-radius: 50%;
+		display: inline-block;
+		height: 10px;
+		margin-right: 5px;
+		width: 10px;
+	}
+
+	.legend2 {
+		background-color: #fff;
+		border-radius: 3px;
+		bottom: 30px;
+		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+		font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+		padding: 10px;
+		position: absolute;
+		left: 10px;
+		z-index: 1;
+	}
+
+	.legend2 h4 {
+		margin: 0 0 10px;
+	}
+
+	.legend2 div span {
+		border-radius: 50%;
+		display: inline-block;
+		height: 10px;
+		margin-left: 5px;
+		width: 10px;
+	}
+
+	.marker {
+		background-image: url('mapbox-icon.png');
+		background-size: cover;
+		width: 50px;
+		height: 50px;
+		border-radius: 50%;
+		cursor: pointer;
+	}
+
+	.mapboxgl-popup {
+		max-width: 400px;
+		font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+	}
+
+	.coordinates {
+		background: rgba(0, 0, 0, 0.5);
+		color: #fff;
+		position: absolute;
+		bottom: 60px;
+		left: 40px;
+		padding: 5px 10px;
+		margin: 0;
+		font-size: 11px;
+		line-height: 18px;
+		border-radius: 3px;
+		display: none;
+	}
+</style>
 @endpush
 
 @section('content')
@@ -15,6 +92,7 @@
 					<div><span style="background-color: #FF0000"></span>Tinggi</div>
 					<div><span style="background-color: #FFFF00"></span>Medium</div>
 					<div><span style="background-color: #008000"></span>Rendah</div>
+					<div><span style="background-color: #c8d1e1"></span>Kosong</div>
 				</div>
 			</div>
 		</div>
@@ -119,6 +197,7 @@ $a = asset('geo-map/kota.json');
 				'paint': { // blue color fill
 					'fill-color': [
 						"case",
+						['<=', ['get', "bencana"], 0], "#c8d1e1",
 						['<=', ['get', "bencana"], 15], "#008000",
 						['<=', ['get', "bencana"], 30], "#FFFF00",
 						['<=', ['get', "bencana"], 45], "#FF0000",
@@ -160,7 +239,15 @@ $a = asset('geo-map/kota.json');
 				closeOnClick: false
 			});
 
+			map.on('click', 'isi', function(e) {
+				new mapboxgl.Popup()
+				.setLngLat(e.lngLat)
+				.setHTML('<h3>' + e.features[0].properties.nama + '</h3><p>' + e.features[0].properties.bencana + ' Bencana</p>')
+				.addTo(map);
+			});
+
 			map.on('mousemove', 'isi', function(e) {
+
 				if (e.features.length > 0) {
 					if (hoveredStateId1) {
                                 // Change the cursor style as a UI indicator.
@@ -208,9 +295,9 @@ $a = asset('geo-map/kota.json');
 		}
 		);//z
 
-		map.on('idle', function() {
-			map.resize()
-		});
-	});
+map.on('idle', function() {
+	map.resize()
+});
+});
 </script>
 @endpush
