@@ -138,6 +138,8 @@ $a = asset('geo-map/kota.json');
 		maxBounds: device,
 	});
 
+	var hoveredStateId1 = null;
+
 	map.on('load', function () {
 		// Add an image to use as a custom marker
 		map.loadImage('https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png', function(error, image) {
@@ -156,36 +158,56 @@ $a = asset('geo-map/kota.json');
 						$a = '{';
 						$b = ',';
 
+						use App\Models\Bencana;
 						use App\Models\BencanaPerWilayah;
 						use App\Models\DataBencanaPerWilayah;
 
-					foreach ($data['wilayah'] as $wilayah) { // mengambil data wilayah dan menampilkannya 
-						$id = $wilayah->id;
-						
-						$jumlah_bencana_per_wilayah = 0;
+						// mengambil data wilayah dan menampilkannya 
+						foreach ($data['wilayah'] as $wilayah) { 
+							$id = $wilayah->id;
 
-						$data_bencana = BencanaPerWilayah::where('id_wilayah','=',$wilayah->id)->get(); // get data bencana per wilayah
-						if ($data_bencana!=null) {
-							foreach ($data_bencana as $db) {
 
-								$total_data_bencana = DataBencanaPerWilayah::where('id_bencana_per_wilayah','=',$db->id_bencana_per_wilayah)->first(); // get data per bencana
-								if ($total_data_bencana!=null) {
-									$jumlah_bencana_per_wilayah += $total_data_bencana->jumlah;
+							// get data bencana per wilayah
+							$data_bencana = BencanaPerWilayah::where('id_wilayah','=',$wilayah->id)->get();
+							$isi = "";
+							$total_bencana_per_wilayah = 0;
+
+							if ($data_bencana!=null) {
+								foreach ($data_bencana as $db) {
+									
+									// data bencana
+									$nama_bencana = Bencana::find($db->id_bencana);
+									$isi .= $nama_bencana->nama_bencana;
+
+									// get data per bencana
+									$total_data_bencana = DataBencanaPerWilayah::where('id_bencana_per_wilayah','=',$db->id_bencana_per_wilayah)->get(); 
+									$jumlah_bencana_per_wilayah = 0;
+									if ($total_data_bencana!=null) {
+										foreach($total_data_bencana as $tdb){
+											$jumlah_bencana_per_wilayah += $tdb->jumlah;
+											$total_bencana_per_wilayah+=$tdb->jumlah;
+										}
+									}
+									$isi .= " ".$jumlah_bencana_per_wilayah." Kejadian<br>";
+
 								}
+							}
+							echo $a;
+						// mengambil file berdasarkan database dan ditampilkan
+							echo file_get_contents("Data_Wilayah/".$wilayah->file_wilayah); 
+							echo $b;
+							echo '"id":'.'"'.$id.'",';
+							echo '"properties":{
+								"nama":'.'"'.$wilayah->nama_wilayah.'"'.',
+								"wilayah":'.'"'.$isi.'"'.',
+								"bencana":'.$total_bencana_per_wilayah.'}},
+								';
 
 							}
-						}
-						echo $a;
-						echo file_get_contents("Data_Wilayah/".$wilayah->file_wilayah); // mengambil file berdasarkan database dan ditampilkan
-						echo $b;
-						echo '"id":'.'"'.$id.'",';
-						echo '"properties":{"nama":'.'"'.$wilayah->nama_wilayah.'"'.',"wilayah":'.'"'.$wilayah->nama_wilayah.'"'.',"bencana":'.$jumlah_bencana_per_wilayah.'}},';
-
-					}
-					
-					?>
-					
-					]
+							
+							?>
+							
+							]
 				}
 			});
 
@@ -224,27 +246,27 @@ $a = asset('geo-map/kota.json');
 				}
 			});
 
-			map.addLayer({ // Add a layer showing the places.
-				'id': 'places',
-				'type': 'symbol',
-				'source': 'places',
-				'layout': {
-					'icon-image': 'custom-marker',
-					'icon-allow-overlap': true
-				}
-			});
+			// map.addLayer({ // Add a layer showing the places.
+			// 	'id': 'places',
+			// 	'type': 'symbol',
+			// 	'source': 'places',
+			// 	'layout': {
+			// 		'icon-image': 'custom-marker',
+			// 		'icon-allow-overlap': true
+			// 	}
+			// });
 
 			var popup1 = new mapboxgl.Popup({
 				closeButton: false,
 				closeOnClick: false
 			});
 
-			map.on('click', 'isi', function(e) {
-				new mapboxgl.Popup()
-				.setLngLat(e.lngLat)
-				.setHTML('<h3>' + e.features[0].properties.nama + '</h3><p>' + e.features[0].properties.bencana + ' Bencana</p>')
-				.addTo(map);
-			});
+			// map.on('click', 'isi', function(e) {
+			// 	new mapboxgl.Popup()
+			// 	.setLngLat(e.lngLat)
+			// 	.setHTML('<h3>' + e.features[0].properties.nama + '</h3><p>' + e.features[0].properties.bencana + ' Bencana</p>')
+			// 	.addTo(map);
+			// });
 
 			map.on('mousemove', 'isi', function(e) {
 
@@ -258,8 +280,18 @@ $a = asset('geo-map/kota.json');
 
                                 // Display a popup with the name of the county
 						popup1.setLngLat(e.lngLat)
-						.setHTML('<h5><p class="text-center"><strong>' + "Kecamatan " + feature1.properties.nama + '</strong><br>' + "Prevalensi Kasus " + feature1.properties.bencana + " % " +
-							'</p></h5>')
+						.setHTML(
+							'<p class="text-center">'+
+							'<h6>'+
+							'<strong>' +
+							feature1.properties.nama +
+							'</strong>'+
+							'</h6>'+
+							feature1.properties.wilayah+
+							// '<br>' +
+							// feature1.properties.bencana+
+							'</p>'
+							)
 						.addTo(map);
 						map.setFeatureState({
 							source: 'maine',

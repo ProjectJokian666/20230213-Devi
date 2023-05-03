@@ -19,6 +19,7 @@ class DashboardController extends Controller
             }
         }
         else{
+            
             return view('guest.home');
         }
     }

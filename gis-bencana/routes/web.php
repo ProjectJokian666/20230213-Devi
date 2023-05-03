@@ -26,6 +26,7 @@ Route::prefix('peta')->name('peta.')->group(function(){
 });
 Route::prefix('grafik')->name('grafik.')->group(function(){
     Route::get('',[Grafik::class,'grafik'])->name('grafik');
+    Route::get('get_grafik',[Grafik::class,'get_grafik'])->name('get_grafik');
 });
 Route::prefix('informasi')->name('informasi.')->group(function(){
     Route::get('',[Informasi::class,'informasi'])->name('informasi');
@@ -41,6 +42,7 @@ Route::middleware('auth')->group(function(){
 
     Route::get('profil',[Authen::class,'profil'])->name('profil');
     Route::post('profil',[Authen::class,'pprofil'])->name('pprofil');
+    Route::post('profil_img',[Authen::class,'pprofil_img'])->name('pprofil_img');
 
     Route::prefix('admin')->name('admin')->group(function(){
         Route::get('',[Admin::class,'admin']);

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
 
+use App\Models\Wilayah;
+
 class PetugasController extends Controller
 {
     public function petugas()
@@ -13,6 +15,9 @@ class PetugasController extends Controller
         if (Auth()->User()->role!='Petugas') {
             return redirect('/');
         }
-        return view('Petugas.index');
+        $data = [
+            'wilayah'=>Wilayah::all(),
+        ];
+        return view('Petugas.index',compact('data'));
     }
 }

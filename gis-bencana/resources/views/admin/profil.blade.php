@@ -41,7 +41,34 @@
                 <div class="col-12">
                   <button class="btn btn-primary w-100" type="submit">UBAH</button>
                 </div>
-              
+
+              </form>
+
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+
+          <div class="card mb-3">
+            <div class="card-header d-flex align-items-center justify-content-center">
+              <img src="{{asset('Img')}}/{{Auth()->User()->foto}}" alt="Profile" class="rounded-circle" width="100" height="100">
+            </div>
+            <div class="card-body">
+
+              <form class="row g-3 pt-4 needs-validation" novalidate method="POST" action="{{url('profil_img')}}" enctype="multipart/form-data">
+                @csrf
+                <div class="col-12">
+                  <label for="img-profile" class="form-label">Img Profile</label>
+                  <input class="form-control @error('img_profile') is-invalid @enderror" type="file" id="img-profile" name="img_profil">
+                  @error('img_profile')
+                  <div class="invalid-feedback">Masukkan Gambar</div>
+                  @enderror
+                </div>
+                
+                <div class="col-12">
+                  <button class="btn btn-primary w-100" type="submit">UBAH</button>
+                </div>
+
               </form>
 
             </div>

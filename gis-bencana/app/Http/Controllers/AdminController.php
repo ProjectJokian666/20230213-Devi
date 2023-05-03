@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
 
+use App\Models\Wilayah;
+
 class AdminController extends Controller
 {
     public function admin()
@@ -13,6 +15,9 @@ class AdminController extends Controller
         if (Auth()->User()->role!='Admin') {
             return redirect('/');
         }
-        return view('Admin.index');
+        $data = [
+            'wilayah'=>Wilayah::all(),
+        ];
+        return view('Admin.index',compact('data'));
     }
 }

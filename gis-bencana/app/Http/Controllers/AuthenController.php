@@ -95,4 +95,63 @@ class AuthenController extends Controller
 			return redirect('profil');
 		}
 	}
+	public function pprofil_img(Request $request)
+	{
+		// dd($request);
+		if (Auth::check()) {
+			if ($request->file('img_profil')) {
+				$get_data = User::find(Auth()->User()->id);
+				// dd($get_data);
+				//null img
+				if ($get_data->foto==null) {
+
+					$file_img = $request->file('img_profil');
+					$nama_file_img = DATE('YmdHis').'.'.$file_img->getClientOriginalExtension();
+					$move_file = $file_img->move('Img',$nama_file_img);
+					if ($move_file) {
+						$update_file = User::where('id','=',Auth()->User()->id)->update([
+							'foto' => $nama_file_img,
+						]);
+					}
+				}
+				else if($get_data->foto){
+					if (file_exists("Img/".$get_data->foto)) {
+						$hapus_file_img = unlink("Img/".$get_data->foto);
+						if($hapus_file_img){
+
+							$file_img = $request->file('img_profil');
+							$nama_file_img = DATE('YmdHis').'.'.$file_img->getClientOriginalExtension();
+							$move_file = $file_img->move('Img',$nama_file_img);
+							if ($move_file) {
+								$update_file = User::where('id','=',Auth()->User()->id)->update([
+									'foto' => $nama_file_img,
+								]);
+							}
+
+						}
+					}
+					else{
+						$file_img = $request->file('img_profil');
+						$nama_file_img = DATE('YmdHis').'.'.$file_img->getClientOriginalExtension();
+						$move_file = $file_img->move('Img',$nama_file_img);
+						if ($move_file) {
+							$update_file = User::where('id','=',Auth()->User()->id)->update([
+								'foto' => $nama_file_img,
+							]);
+						}						
+					}
+				}
+				if ($update_file) {
+					return redirect('profil')->with('sukses','Data berhasil diubah');
+				}
+				else {
+					return redirect('profil')->with('gagal','Data gagal diubah');
+				}
+			}
+			return redirect()->route('profil');
+		}
+		else{
+			return redirect('login');
+		}
+	}
 }

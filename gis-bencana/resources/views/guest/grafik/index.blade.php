@@ -9,77 +9,119 @@
 @section('content')
 <section class="section dashboard">
 	<div class="row justify-content-center card">
-		<div class="col-12">
+		<div class="col-12 mt-3">
+			<div class="row">
+				<div class="col-4">
+					<input type="date" class="form-control" id="tanggal" name="tanggal">
+				</div>
+				<div class="col-8">
+					<button type="button" class="btn btn-primary" id="btn_lihat">Lihat</button>
+				</div>	
+			</div>
+		</div>
+		<div class="col-12 mt-3">
 			<div id="container" style="height:500px;width: 100%;"></div>
 		</div>
 	</div>
 </section>
 @endsection
 @push('jss')
-<script>// Data retrieved from https://gs.statcounter.com/browser-market-share#monthly-202201-202201-bar
+<script src="{{asset('Jquery')}}\jquery-3.6.4.min.js"></script>
+<script>
+// Data retrieved from https://gs.statcounter.com/browser-market-share#monthly-202201-202201-bar
 
-// var json_data_bencana = {!!json_encode($data['Bencana'])!!}
-// console.log(json_data_bencana,{!!json_encode($data['Bencana'])!!})
+	var Bencana
+	var Rinci
 
-// Create the chart
-Highcharts.chart('container', {
-	chart: {
-		type: 'column'
-	},
-	title: {
-		align: 'center',
-		text: 'REKAP DATA BENCANA '
-	},
-	subtitle: {
-		align: 'left',
-		text: ''
-	},
-	accessibility: {
-		announceNewData: {
-			enabled: false
-		}
-	},
-	xAxis: {
-		type: 'category'
-	},
-	yAxis: {
-		title: {
-			text: 'Jumlah Terjadi'
-		}
+	Get_Data_Grafik()
 
-	},
-	legend: {
-		enabled: false
-	},
-	plotOptions: {
-		series: {
-			borderWidth: 0,
-			dataLabels: {
-				enabled: true,
-				format: '{point.y:.1f}'
+	$("#btn_lihat").on('click',function() {
+		// console.log(Bencana,Rinci,$('#tanggal').val())
+		Get_Data_Grafik()
+	})
+
+	function Get_Data_Grafik(){
+		$.ajax({
+			url:"{{route('grafik.get_grafik')}}",
+			type:"GET",
+			data : {
+				tanggal : $("#tanggal").val(),
+			},
+			success:function(data){
+				// Bencana = $("#tanggal").val()
+				// Rinci = data
+				// console.log(Bencana,Rinci,data,data.Bencana,data.Rinci)
+				// Bencana = data.Bencana
+				// console.log(Bencana)
+				// Rinci = data.Rinci
+				// console.log(Rinci)
+				// console.log($("#tanggal").val())
+				Show_Grafik(data.Bencana,data.Rinci)
 			}
-		}
-	},
-
-	tooltip: {
-		headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-		pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}</b> Terjadi<br/>'
-	},
-
-	series: [
-	{
-		name: 'BENCANA',
-		colorByPoint: true,
-		data: {!!json_encode($data['Bencana'])!!}
+		});
 	}
-	],
-	drilldown: {
-		breadcrumbs: {
-			position: {
-				align: 'right'
+
+	function Show_Grafik(a,b){
+		// console.log(a,b)
+		// Create the chart
+		Highcharts.chart('container', {
+			chart: {
+				type: 'column'
+			},
+			title: {
+				align: 'center',
+				text: 'REKAP DATA BENCANA '
+			},
+			subtitle: {
+				align: 'left',
+				text: ''
+			},
+			accessibility: {
+				announceNewData: {
+					enabled: false
+				}
+			},
+			xAxis: {
+				type: 'category'
+			},
+			yAxis: {
+				title: {
+					text: 'Jumlah Terjadi'
+				}
+
+			},
+			legend: {
+				enabled: false
+			},
+			plotOptions: {
+				series: {
+					borderWidth: 0,
+					dataLabels: {
+						enabled: true,
+						format: '{point.y:.0f} terjadi'
+					}
+				}
+			},
+
+			tooltip: {
+				headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+				pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.0f}</b> Terjadi<br/>'
+			},
+
+			series: [
+			{
+				name: 'BENCANA',
+				colorByPoint: true,
+				data: a
 			}
-		},
-		series:{!!json_encode($data['Rinci'])!!}
+			],
+			drilldown: {
+				breadcrumbs: {
+					position: {
+						align: 'right'
+					}
+				},
+				series:b
 		// series: [
 		// {
 		// 	name: 'Chrome',
@@ -298,7 +340,9 @@ Highcharts.chart('container', {
 		// 		]
 		// }
 		// ]
+			}
+		});
+
 	}
-});
 </script>
 @endpush
