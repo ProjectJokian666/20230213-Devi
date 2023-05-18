@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\BencanaPerWilayah;
+
 class Bencana extends Model
 {
     use HasFactory;
@@ -19,5 +21,9 @@ class Bencana extends Model
     public function bencanaperwilayah()
     {
         return $this->hasMany(BencanaPerWilayah::class,'id_bencana','id');
+    }
+    public function nama_wilayah($id)
+    {
+        return BencanaPerWilayah::find($id);
     }
 }

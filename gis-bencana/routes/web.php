@@ -10,11 +10,13 @@ use App\Http\Controllers\AdminController as Admin;
 use App\Http\Controllers\Admin\PetugasController as AdminPetugas;
 use App\Http\Controllers\Admin\WilayahController as AdminWilayah;
 use App\Http\Controllers\Admin\BencanaController as AdminBencana;
+use App\Http\Controllers\Admin\DataController as Admindata;
 use App\Http\Controllers\Admin\BencanaPerWilayahController as AdminBencanaPerWilayah;
 
 use App\Http\Controllers\PetugasController as Petugas;
 use App\Http\Controllers\Petugas\WilayahController as PetugasWilayah;
 use App\Http\Controllers\Petugas\BencanaController as PetugasBencana;
+use App\Http\Controllers\Petugas\DataController as Petugasdata;
 
 use App\Http\Controllers\Guest\PetaController as Peta;
 use App\Http\Controllers\Guest\GrafikController as Grafik;
@@ -62,6 +64,11 @@ Route::middleware('auth')->group(function(){
             Route::delete('wilayah/{id}',[AdminBencana::class,'delete_wilayah'])->name('.delete_wilayah');
         });
 
+        Route::prefix('data')->name('data')->group(function(){
+            Route::get('',[AdminData::class,'data']);
+            Route::get('detail/{id}',[AdminData::class,'detail'])->name('.detail');
+        });
+
         Route::post('add_bencana',[AdminBencana::class,'add_bencana'])->name('.add_bencana');
         Route::patch('update_bencana',[AdminBencana::class,'update_bencana'])->name('.update_bencana');
         Route::delete('delete_bencana',[AdminBencana::class,'delete_bencana'])->name('.delete_bencana');
@@ -83,6 +90,10 @@ Route::middleware('auth')->group(function(){
             Route::patch('wilayah/{id}',[PetugasBencana::class,'update_wilayah'])->name('.update_wilayah');
             Route::patch('wilayah/{id}/ubah',[PetugasBencana::class,'ubah_wilayah'])->name('.ubah_wilayah');
             Route::delete('wilayah/{id}',[PetugasBencana::class,'delete_wilayah'])->name('.delete_wilayah');
+        });
+
+        Route::prefix('data')->name('data')->group(function(){
+            Route::get('',[PetugasData::class,'data']);
         });
 
         Route::patch('update_bencana',[PetugasBencana::class,'update_bencana'])->name('.update_bencana');
