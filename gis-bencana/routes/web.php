@@ -23,6 +23,7 @@ use App\Http\Controllers\Guest\InformasiController as Informasi;
 Route::get('/',[Dashboard::class,'index'])->name('index');
 Route::prefix('peta')->name('peta.')->group(function(){
     Route::get('',[Peta::class,'peta'])->name('peta');
+    Route::get('get_peta',[Peta::class,'get_peta'])->name('get_peta');
 });
 Route::prefix('grafik')->name('grafik.')->group(function(){
     Route::get('',[Grafik::class,'grafik'])->name('grafik');

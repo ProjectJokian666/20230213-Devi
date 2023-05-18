@@ -21,9 +21,55 @@ class BencanaController extends Controller
             if (Auth()->User()->role!='Admin') {
                 return redirect('/');
             }
+
+            //mengisi array
+            $isi_bencana=[];
+            $data_bencana = Bencana::all();
+            foreach ($data_bencana as $key_bencana => $value_bencana) {
+                // dd($data_bencana);
+                $bencana_per_wilayah = BencanaPerWilayah::where('id_bencana','=',$value_bencana['id'])->get();
+                $isi_bencana_per_wilayah = BencanaPerWilayah::where('id_bencana','=',$value_bencana['id'])->get();
+                // dd($bencana_per_wilayah);
+                $total_kejadian = 0;
+                foreach($isi_bencana_per_wilayah as $key_isi_bencana_per_wilayah => $value_isi_bencana_per_wilayah){
+                    $isi_data_bencana_per_wilayah = DataBencanaPerWilayah::where('id_bencana_per_wilayah','=',$value_isi_bencana_per_wilayah['id_bencana_per_wilayah'])->get();
+                    foreach ($isi_data_bencana_per_wilayah as $key_isi_data_bencana_perwilayah => $value_isi_data_bencana_per_wilayah) {
+                        $total_kejadian+=$value_isi_data_bencana_per_wilayah['jumlah'];
+                    }
+                }
+                foreach($bencana_per_wilayah as $key_bencana_per_wilayah => $value_bencana_per_wilayah){
+                    $total_jumlah = 0;
+                    $data_bencana_per_wilayah = DataBencanaPerWilayah::where('id_bencana_per_wilayah','=',$value_bencana_per_wilayah['id_bencana_per_wilayah'])->get();
+                    // dd($data_bencana_per_wilayah);
+                    if ($data_bencana_per_wilayah) {
+                        foreach($data_bencana_per_wilayah as $key_data_bencana_perwilayah => $value_data_bencana_per_wilayah){
+                            $total_jumlah+=$value_data_bencana_per_wilayah['jumlah'];
+                        }
+                        $dampak = 0;
+                        if ($total_kejadian!=0) {
+                            $dampak=round($total_jumlah/$total_kejadian*100);
+                            // $dampak=$total_jumlah/$total_kejadian*100;
+                        }
+                        array_push($isi_bencana,[
+                            'id_bencana'=>$value_bencana['id'],
+                            'nama_bencana'=>$value_bencana['nama_bencana'],
+                            'id_wilayah'=>$value_bencana_per_wilayah['id_wilayah'],
+                            'nama_wilayah'=>$value_bencana_per_wilayah->wilayah->nama_wilayah,
+                            'id_bencana_per_wilayah'=>$value_bencana_per_wilayah['id_bencana_per_wilayah'],
+                            'total_jumlah'=>$total_jumlah,
+                            'total_kejadian'=>$total_kejadian,
+                            'dampak' =>$dampak,
+                        ]);
+                    }
+                }
+            }
+
+            // dd($isi_bencana);
             $data = [
                 'bencana' => Bencana::all(),
+                'isi_bencana' => $isi_bencana,
             ];
+            // dd($data);
             return view('Admin.bencana.index',compact('data'));
         }
         else{

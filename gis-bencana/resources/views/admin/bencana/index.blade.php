@@ -32,24 +32,30 @@
 					<table class="table datatable table-sm text-center">
 						<thead>
 							<tr>
-								<th scope="col">#</th>
-								<th scope="col">Nama</th>
-								<th scope="col">Deskripsi</th>
-								<th scope="col">#</th>
+								<th scope="col">No.</th>
+								<th scope="col">Nama Bencana</th>
+								<th scope="col">Deskripsi Bencana</th>
+								<th scope="col">Aksi</th>
 							</tr>
 						</thead>
 						<tbody>
-							@foreach($data['bencana'] as $bencana)
+							@foreach($data['bencana'] as $key => $value)
 							<tr>
 								<td>{{$loop->iteration}}</td>
-								<td>{{$bencana->nama_bencana}}</td>
-								<td>{{substr($bencana->deskripsi_bencana,0,30)}} ...</td>
+								<td>{{$value['nama_bencana']}}</td>
 								<td>
-									<button type="button" class="btn btn-sm btn-info text-white" data-bs-toggle="modal" data-bs-target="#update_petugas_{{$bencana->id}}">UBAH DATA</button>
+									@if(strlen($value['deskripsi_bencana'])>=20)
+									{{substr($value['deskripsi_bencana'],0,20)}}...
+									@else
+									{{$value['deskripsi_bencana']}}
+									@endif
+								</td>
+								<td>
+									<button type="button" class="btn btn-sm btn-info text-white" data-bs-toggle="modal" data-bs-target="#update_petugas_{{$value['id']}}">UBAH DATA</button>
 									@include('admin.bencana.update')
-									<button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete_petugas_{{$bencana->id}}">HAPUS DATA</button>
+									<button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete_petugas_{{$value['id']}}">HAPUS DATA</button>
 									@include('admin.bencana.delete')
-									<a href="{{url('admin/bencana/wilayah',$bencana->id)}}" class="btn btn-sm btn-success">WILAYAH</a>
+									<a href="{{url('admin/bencana/wilayah',$value['id'])}}" class="btn btn-sm btn-success">WILAYAH</a>
 								</td>
 							</tr>
 							@endforeach

@@ -179,9 +179,11 @@
 						tanggal2 : $("#tanggal2").val(),
 					},
 					success:function(data){
-						console.log(data);
+						
 					},
 				});
+
+				console.log('<?php $data_bencana="?>bencana<?php"; ?>')
 
 				map.addSource('maine', {
 					'type': 'geojson',
@@ -197,115 +199,136 @@
 
 							// menampilkan data wilayah 
 							foreach ($data['wilayah'] as $key => $value_wilayah) {
+								$id_bencana="?>select_bencana<?php";
 
-								echo '{';
-								echo '"id":"'.$value_wilayah['id'].'",';
-								echo '"nama":"'.$value_wilayah['nama_wilayah'].'",';
-								echo '"bencana":"'.$value_wilayah['nama_wilayah'].'",';
-								echo file_get_contents("Data_Wilayah/".$value_wilayah['file_wilayah']);
-								echo "},";
+								$data_bencana = Bencana::find($id_bencana);
 
-							}
+								$data_bencana_per_wilayah = BencanaPerWilayah::where('id_wilayah','=',$value_wilayah['id'])->get();
 
-							?>
-							]
-					}
-				});
+									$total_bencana_per_wilayah = 0;
+									$isi = "";
+									if ($data_bencana_per_wilayah!=null) {
+										foreach($data_bencana_per_wilayah as $key => $value_bencana){
+											$nama_bencana = Bencana::find($value_bencana['id_bencana']);
+												$isi .= $nama_bencana->nama_bencana;
 
-				map.addLayer({
-					'id': 'isi',
-					'type': 'fill',
-					'source': 'maine', 
-					'layout': {},
-					'paint': {
-						'fill-color': [
-							"case",
-							['<=', ['get', "data_bencana"], 0], "#c8d1e1",
-							['<=', ['get', "data_bencana"], 29], "#5cfc00",
-							['<=', ['get', "data_bencana"], 59], "#fc7600",
-							['<=', ['get', "data_bencana"], 100], "#360602",
-							'#123456'
-							],
-						'fill-opacity': [
-							'case',
-							['boolean', ['feature-state', 'hover'], false],
-							1,
-							0.5
-							]
-					}
-				});
+												$total_data_bencana = DataBencanaPerWilayah::where('id_bencana_per_wilayah','=',$value_bencana['id_bencana_per_wilayah'])->get(); 
+													$jumlah_bencana_per_wilayah = 0;
+													if ($total_data_bencana!=null) {
+														foreach($total_data_bencana as $tdb){
+															$jumlah_bencana_per_wilayah += $tdb->jumlah;
+															$total_bencana_per_wilayah+=$tdb->jumlah;
+														}
+													}
+													$isi .= " ".$jumlah_bencana_per_wilayah." Kejadian<br>";
+												}
+											}
 
-				map.addLayer({
-					'id': 'batas',
-					'type': 'line',
-					'source': 'maine',
-					'layout': {},
-					'paint': {
-						'line-width': 1,
-						'line-color': '#f0ffff'
-					}
-				});
+											echo '{';
+											echo '"id":"'.$value_wilayah['id'].'",';
+											echo file_get_contents("Data_Wilayah/".$value_wilayah['file_wilayah']);
+												echo "},";
+											}
 
-				var popup1 = new mapboxgl.Popup({
-					closeButton: false,
-					closeOnClick: false
-				});
-				
-				var hoveredStateId1 = null;
+											?>
+											]
+										}
+									});
 
-				map.on('mousemove', 'isi', function(e) {
-					if (e.features.length > 0) {
-						if (hoveredStateId1) {
-							map.getCanvas().style.cursor = 'pointer';
-							var feature1 = e.features[0];
-							popup1.setLngLat(e.lngLat)
-							.setHTML(
-								'<p class="text-center">'+
-								'<h6>'+
-								'<strong>' +
-								feature1.properties.nama +
-								'</strong>'+
-								'</h6>'+
-								feature1.properties.wilayah+
-								feature1.properties.bencana+
-								'</p>'
-								)
-							.addTo(map);
-							map.setFeatureState({
-								source: 'maine',
-								id: hoveredStateId1
-							}, {
-								hover: false
-							});
-						}
-						hoveredStateId1 = e.features[0].id;
-						map.setFeatureState({
-							source: 'maine',
-							id: hoveredStateId1
-						}, {
-							hover: true
-						});
-					}
-				});
+map.addLayer({
+	'id': 'isi',
+	'type': 'fill',
+	'source': 'maine', 
+	'layout': {},
+	'paint': {
+		'fill-color': [
+			"case",
+			['<=', ['get', "bencana"], 0], "#c8d1e1",
+			['<=', ['get', "bencana"], 29], "#5cfc00",
+			['<=', ['get', "bencana"], 59], "#fc7600",
+			['<=', ['get', "bencana"], 100], "#360602",
+			'#123456'
+			],
+		'fill-opacity': [
+			'case',
+			['boolean', ['feature-state', 'hover'], false],
+			1,
+			0.5
+			]
+	}
+});
 
-				map.on('mouseleave', 'isi', function() {
-					if (hoveredStateId1) {
-						map.getCanvas().style.cursor = '';
-						popup1.remove();
-						map.setFeatureState({
-							source: 'maine',
-							id: hoveredStateId1
-						}, {
-							hover: false
-						});
-					}
-					hoveredStateId1 = null;
-				});
+map.addLayer({
+	'id': 'batas',
+	'type': 'line',
+	'source': 'maine',
+	'layout': {},
+	'paint': {
+		'line-width': 1,
+		'line-color': '#f0ffff'
+	}
+});
 
+var popup1 = new mapboxgl.Popup({
+	closeButton: false,
+	closeOnClick: false
+});
+
+var hoveredStateId1 = null;
+
+map.on('mousemove', 'isi', function(e) {
+	if (e.features.length > 0) {
+		if (hoveredStateId1) {
+			map.getCanvas().style.cursor = 'pointer';
+			var feature1 = e.features[0];
+			popup1.setLngLat(e.lngLat)
+			.setHTML(
+				'<p class="text-center">'+
+				'<h6>'+
+				'<strong>' +
+				feature1.properties.nama +
+				'</strong>'+
+				'</h6>'+
+				feature1.properties.wilayah+
+				feature1.properties.bencana+
+				'</p>'
+				)
+			.addTo(map);
+			map.setFeatureState({
+				source: 'maine',
+				id: hoveredStateId1
+			}, {
+				hover: false
 			});
-
+		}
+		hoveredStateId1 = e.features[0].id;
+		map.setFeatureState({
+			source: 'maine',
+			id: hoveredStateId1
+		}, {
+			hover: true
 		});
 	}
+});
+
+map.on('mouseleave', 'isi', function() {
+	if (hoveredStateId1) {
+		map.getCanvas().style.cursor = '';
+		popup1.remove();
+		map.setFeatureState({
+			source: 'maine',
+			id: hoveredStateId1
+		}, {
+			hover: false
+		});
+	}
+	hoveredStateId1 = null;
+});
+
+});
+
+});
+}
 
 </script>
 @endpush

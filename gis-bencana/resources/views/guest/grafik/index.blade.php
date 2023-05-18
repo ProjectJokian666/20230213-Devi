@@ -12,11 +12,14 @@
 		<div class="col-12 mt-3">
 			<div class="row">
 				<div class="col-4">
-					<input type="date" class="form-control" id="tanggal" name="tanggal">
+					<input type="date" class="form-control" id="tanggal1" name="tanggal1">
 				</div>
-				<div class="col-8">
+				<div class="col-4">
+					<input type="date" class="form-control" id="tanggal2" name="tanggal2">
+				</div>
+				<div class="col-2">
 					<button type="button" class="btn btn-primary" id="btn_lihat">Lihat</button>
-				</div>	
+				</div>
 			</div>
 		</div>
 		<div class="col-12 mt-3">
@@ -25,6 +28,7 @@
 	</div>
 </section>
 @endsection
+
 @push('jss')
 <script src="{{asset('Jquery')}}\jquery-3.6.4.min.js"></script>
 <script>
@@ -36,7 +40,6 @@
 	Get_Data_Grafik()
 
 	$("#btn_lihat").on('click',function() {
-		// console.log(Bencana,Rinci,$('#tanggal').val())
 		Get_Data_Grafik()
 	})
 
@@ -45,7 +48,8 @@
 			url:"{{route('grafik.get_grafik')}}",
 			type:"GET",
 			data : {
-				tanggal : $("#tanggal").val(),
+				tanggal1 : $("#tanggal1").val(),
+				tanggal2 : $("#tanggal2").val(),
 			},
 			success:function(data){
 				// Bencana = $("#tanggal").val()

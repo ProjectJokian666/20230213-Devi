@@ -7,7 +7,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       
-      <form action="{{url('admin/update_wilayah')}}" method="POST"enctype="multipart/form-data">
+      <form action="{{url('petugas/update_wilayah')}}" method="POST"enctype="multipart/form-data">
         @csrf
         @method('patch')
         <div class="modal-body">

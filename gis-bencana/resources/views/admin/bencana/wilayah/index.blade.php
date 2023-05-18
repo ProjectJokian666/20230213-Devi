@@ -35,10 +35,10 @@
 					<table class="table datatable table-sm text-center">
 						<thead>
 							<tr>
-								<th scope="col">#</th>
+								<th scope="col">No.</th>
 								<th scope="col">Wilayah</th>
 								<th scope="col">Jumlah Terjadi</th>
-								<th scope="col">#</th>
+								<th scope="col">Aksi</th>
 							</tr>
 						</thead>
 						<tbody>

@@ -24,40 +24,30 @@
 			<div class="card">
 				<div class="card-body">
 					<div class="d-flex mt-4 mb-4 justify-content-between">
-						<h5>Tabel Wilayah {{$data['bencana']->nama_bencana}}</h5>
-						<div>
-							<a href="{{url('petugas/bencana')}}" type="button" class="btn btn-sm btn-secondary">KEMBALI</a>
-						</div>
+						<h5>Tabel Bencana</h5>
+						<button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#create_petugas">TAMBAH DATA</button>
+						@include('admin.bencana.create')
 					</div>
 					<!-- Default Table -->
 					<table class="table datatable table-sm text-center">
 						<thead>
 							<tr>
 								<th scope="col">No.</th>
+								<th scope="col">Nama Bencana</th>
 								<th scope="col">Wilayah</th>
-								<th scope="col">Jumlah Terjadi</th>
+								<th scope="col">Terdampak ( % )</th>
 								<th scope="col">Aksi</th>
 							</tr>
 						</thead>
 						<tbody>
-							@foreach($data['wilayah'] as $w)
+							@foreach($data['isi_bencana'] as $key_bencana => $value_bencana)
 							<tr>
 								<td>{{$loop->iteration}}</td>
-								<td>{{$w->wilayah->nama_wilayah}}</td>
+								<td>{{$value_bencana['nama_bencana']}}</td>
+								<td>{{$value_bencana['nama_wilayah']}}</td>
+								<td>{{$value_bencana['dampak']}} %</td>
 								<td>
-									<?php 
-									$count = 0;
-									foreach($w->data_per_wilayah as $dpw){
-										$count+=$dpw->jumlah;
-									}
-									echo $count;
-									?>
-								</td>
-								<td>
-									<form action="{{url('petugas/bencana/wilayah',$w->id_bencana)}}" method="POST">
-										@csrf
-										<button type="submit" name="wilayah" value="{{$w->id_wilayah}}" class="btn btn-sm btn-info text-white">LIHAT DATA</button>
-									</form>
+									<a href="{{url('admin/bencana/wilayah',$value_bencana['id_bencana_per_wilayah'])}}" class="btn btn-sm btn-info text-white">DETAIL</a>
 								</td>
 							</tr>
 							@endforeach

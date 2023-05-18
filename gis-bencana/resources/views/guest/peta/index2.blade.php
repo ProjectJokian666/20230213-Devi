@@ -84,14 +84,33 @@
 @section('content')
 <section class="section dashboard">
 	<div class="row justify-content-center card">
-		<div class="col-12">
+		<div class="col-12 mt-3">
+			<div class="row">
+				<div class="col-3">
+					<select class="form-control" id="bencana" name="bencana">
+						@foreach($data['bencana'] as $key => $value)
+						<option value="{{$value['id']}}">{{$value['nama_bencana']}}</option>
+						@endforeach
+					</select>
+				</div>
+				<div class="col-3">
+					<input type="date" class="form-control" id="tanggal1" name="tanggal1">
+				</div>
+				<div class="col-3">
+					<input type="date" class="form-control" id="tanggal2" name="tanggal2">
+				</div>
+				<div class="col-3">
+					<button type="button" class="btn btn-primary" id="btn_lihat">Lihat</button>
+				</div>
+			</div>
+		</div>
+		<div class="col-12 mt-3">
 			<div id="maps" style="height:500px;">
 				<div id="state-legend" class="legend">
 					<h6>Keterangan</h6>
-					<div><span style="background-color: #000000"></span>Sangat Tinggi</div>
-					<div><span style="background-color: #FF0000"></span>Tinggi</div>
-					<div><span style="background-color: #FFFF00"></span>Medium</div>
-					<div><span style="background-color: #008000"></span>Rendah</div>
+					<div><span style="background-color: #360602"></span>Tinggi ( 60% - 100% )</div>
+					<div><span style="background-color: #fc7600"></span>Medium ( 30% - 59% )</div>
+					<div><span style="background-color: #5cfc00"></span>Rendah ( 1% - 29% )</div>
 					<div><span style="background-color: #c8d1e1"></span>Kosong</div>
 				</div>
 			</div>
@@ -99,12 +118,13 @@
 	</div>
 </section>
 @endsection
-
 @push('jss')
+<script src="{{asset('Jquery')}}\jquery-3.6.4.min.js"></script>
 <script src="{{asset('mapbox/mapbox-gl.js')}}"></script>
 <script>
 	var device;
 	if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            // true for mobile device
 		device = [
 			[111.75913914489564, -8.669228758626588],
 			[112.45263414965126, -7.170129037865038]
@@ -120,17 +140,58 @@
 
 	const map = new mapboxgl.Map(
 	{
-		container: 'maps',
+        // container ID
+		container: 'maps', 
+        // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
+        // style URL
 		style: 'mapbox://styles/mapbox/light-v11',
+        // starting position
 		center: [112.03, -7.824],
-		zoom: 11.5,
+        // starting zoom
+		zoom: 10.5,
 		maxBounds: device,
 	});
-
+	
 	var hoveredStateId1 = null;
 
+	$("#btn_lihat").on('click',function() {
+		// console.log($("#bencana").val(),$("#tanggal1").val(),$("#tanggal2").val(),);
+		Show_Data_Peta();
+	})
+
+	Show_Data_Peta();
+
+	function Show_Data_Peta() {
+		$.ajax({
+			url:"{{route('peta.get_peta')}}",
+			type:"GET",
+			data : {
+				bencana : $("#bencana").val(),
+				tanggal1 : $("#tanggal1").val(),
+				tanggal2 : $("#tanggal2").val(),
+			},
+			success:function(data){
+				// Bencana = $("#tanggal").val()
+				// Rinci = data
+				// console.log(Bencana,Rinci,data,data.Bencana,data.Rinci)
+				// Bencana = data.Bencana
+				// console.log(Bencana)
+				// Rinci = data.Rinci
+				// console.log(Rinci)
+				// console.log($("#tanggal").val())
+				Show_Peta(data.Bencana,data.Rinci)
+			}
+		});
+	}
+
+	function Show_Peta(a,b){
+
+	}
+
+
 	map.on('load', function () {
-		map.loadImage('https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png', function(error, image) {
+		// Add an image to use as a custom marker
+		map.loadImage('{{asset('/')}}mapbox/custom_marker.png', function(error, image) {
 			if (error) {
 				throw error
 			}
@@ -140,8 +201,8 @@
 				'type': 'geojson',
 				'data': {
 					'type': 'FeatureCollection',
-					'features': 
-					[
+					'features': [
+
 						<?php 
 						$a = '{';
 						$b = ',';
@@ -150,9 +211,12 @@
 						use App\Models\BencanaPerWilayah;
 						use App\Models\DataBencanaPerWilayah;
 
+						// mengambil data wilayah dan menampilkannya 
 						foreach ($data['wilayah'] as $wilayah) { 
 							$id = $wilayah->id;
 
+
+							// get data bencana per wilayah
 							$data_bencana = BencanaPerWilayah::where('id_wilayah','=',$wilayah->id)->get();
 							$isi = "";
 							$total_bencana_per_wilayah = 0;
@@ -164,6 +228,7 @@
 									$nama_bencana = Bencana::find($db->id_bencana);
 									$isi .= $nama_bencana->nama_bencana;
 
+									// get data per bencana
 									$total_data_bencana = DataBencanaPerWilayah::where('id_bencana_per_wilayah','=',$db->id_bencana_per_wilayah)->get(); 
 									$jumlah_bencana_per_wilayah = 0;
 									if ($total_data_bencana!=null) {
@@ -177,7 +242,7 @@
 								}
 							}
 							echo $a;
-							// echo $wilayah->file_wilayah;
+						// mengambil file berdasarkan database dan ditampilkan
 							echo file_get_contents("Data_Wilayah/".$wilayah->file_wilayah); 
 							echo $b;
 							echo '"id":'.'"'.$id.'",';
@@ -188,24 +253,25 @@
 								';
 
 							}
+							
 							?>
+							
 							]
 				}
 			});
 
-			map.addLayer({ 
+			map.addLayer({ // Add a new layer to visualize the polygon.
 				'id': 'isi',
-				'type': 'fill', 
+				'type': 'fill', // reference the data source
 				'source': 'maine', 
 				'layout': {},
-				'paint': {
+				'paint': { // blue color fill
 					'fill-color': [
 						"case",
 						['<=', ['get', "bencana"], 0], "#c8d1e1",
-						['<=', ['get', "bencana"], 15], "#008000",
-						['<=', ['get', "bencana"], 30], "#FFFF00",
-						['<=', ['get', "bencana"], 45], "#FF0000",
-						['>', ['get', "bencana"], 60], "#000000",
+						['<=', ['get', "bencana"], 29], "#5cfc00",
+						['<=', ['get', "bencana"], 59], "#fc7600",
+						['<=', ['get', "bencana"], 100], "#360602",
 						'#123456'
 						],
 					'fill-opacity': [
@@ -217,7 +283,7 @@
 				}
 			});
 
-			map.addLayer({
+			map.addLayer({ // Add a black outline around the polygon.
 				'id': 'batas',
 				'type': 'line',
 				'source': 'maine',
@@ -228,17 +294,39 @@
 				}
 			});
 
+			// map.addLayer({ // Add a layer showing the places.
+			// 	'id': 'places',
+			// 	'type': 'symbol',
+			// 	'source': 'places',
+			// 	'layout': {
+			// 		'icon-image': 'custom-marker',
+			// 		'icon-allow-overlap': true
+			// 	}
+			// });
+
 			var popup1 = new mapboxgl.Popup({
 				closeButton: false,
 				closeOnClick: false
 			});
 
+			// map.on('click', 'isi', function(e) {
+			// 	new mapboxgl.Popup()
+			// 	.setLngLat(e.lngLat)
+			// 	.setHTML('<h3>' + e.features[0].properties.nama + '</h3><p>' + e.features[0].properties.bencana + ' Bencana</p>')
+			// 	.addTo(map);
+			// });
+
 			map.on('mousemove', 'isi', function(e) {
 
 				if (e.features.length > 0) {
 					if (hoveredStateId1) {
+                                // Change the cursor style as a UI indicator.
 						map.getCanvas().style.cursor = 'pointer';
+
+                                // Single out the first found feature.
 						var feature1 = e.features[0];
+
+                                // Display a popup with the name of the county
 						popup1.setLngLat(e.lngLat)
 						.setHTML(
 							'<p class="text-center">'+
@@ -286,9 +374,9 @@
 
 		});
 
-		map.on('idle', function() {
-			map.resize()
-		});
-	});
+map.on('idle', function() {
+	map.resize()
+});
+});
 </script>
 @endpush

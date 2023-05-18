@@ -21,18 +21,20 @@ class GrafikController extends Controller
     }
 
     public function get_grafik()
-    {
-        if(request()->tanggal){
+    {   
+        // dd("a");
+        if(request()->tanggal1&&request()->tanggal2){
             //data bencana
             $get_data_bencana = Bencana::all();
             $data_bencana = [];
             foreach($get_data_bencana as $gdb){
                 $jumlah_bencana = 0;
                 foreach($gdb->bencanaperwilayah as $bpw){
-                    foreach ($bpw->data_per_wilayah as $dpw) {
-                        if ($dpw->tgl_terjadi==request()->tanggal) {
-                            $jumlah_bencana+=$dpw->jumlah;
-                        }
+                    // dd($bpw->data_per_wilayah->whereBetween('tgl_terjadi',[request()->tanggal1,request()->tanggal2]));
+                    foreach ($bpw->data_per_wilayah->whereBetween('tgl_terjadi',[request()->tanggal1,request()->tanggal2]) as $dpw) {
+                        $jumlah_bencana+=$dpw->jumlah;
+                        // if ($dpw->tgl_terjadi==request()->tanggal) {
+                        // }
                     }
                 }
                 array_push($data_bencana,[
@@ -56,7 +58,10 @@ class GrafikController extends Controller
                     $data_bencana_per_wilayah = BencanaPerWilayah::where('id_bencana','=',$grdb->id)->where('id_wilayah','=',$gdw->id)->first();
 
                     if ($data_bencana_per_wilayah!=null) {
-                        $jumlah_data_bencana = DataBencanaPerWilayah::where('id_bencana_per_wilayah','=',$data_bencana_per_wilayah->id_bencana_per_wilayah)->where('tgl_terjadi','=',request()->tanggal)->get();
+                        $jumlah_data_bencana = DataBencanaPerWilayah::
+                        where('id_bencana_per_wilayah','=',$data_bencana_per_wilayah->id_bencana_per_wilayah)->
+                        whereBetween('tgl_terjadi',[request()->tanggal1,request()->tanggal2])->
+                        get();
                         // cek ketersediaan data
                         if ($jumlah_data_bencana!=null) {
                             foreach ($jumlah_data_bencana as $jdb) {
@@ -82,8 +87,8 @@ class GrafikController extends Controller
                 'Rinci' => $rincian_data_bencana,
             ];
 
+            // dd(request()->tanggal1,request()->tanggal2,$data);
             return response()->json($data,200);
-            dd(request()->tanggal);
         }
         else{
             //data bencana
