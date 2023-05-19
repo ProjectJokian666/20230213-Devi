@@ -48,7 +48,8 @@ Route::middleware('auth')->group(function(){
     Route::post('profil_img',[Authen::class,'pprofil_img'])->name('pprofil_img');
 
     Route::prefix('admin')->name('admin')->group(function(){
-        Route::get('',[Admin::class,'admin']);
+        Route::get('',[Admin::class,'admin'])->name('.admin');
+        Route::get('get_maps',[Admin::class,'get_maps'])->name('.get_maps');
 
         Route::get('petugas',[AdminPetugas::class,'petugas'])->name('.petugas');
         Route::post('add_petugas',[AdminPetugas::class,'add_petugas'])->name('.add_petugas');

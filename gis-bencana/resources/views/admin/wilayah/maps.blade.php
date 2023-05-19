@@ -22,7 +22,6 @@
 	}
 
 	mapboxgl.accessToken = '{{env("MAPBOX_KEY")}}';
-
 	const map = new mapboxgl.Map(
 	{
 		container: 'maps',

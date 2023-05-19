@@ -59,6 +59,10 @@
 				</div>
 			</div>
 			<div class="card" id="peta_preview">
+				<div style="padding:1rem 0 0 1rem">
+				<!-- <div class="pt-3"> -->
+					<h5>Preview Maps</h5>
+				</div>
 				<div id="maps" style="height:500px;"></div>
 			</div>
 		</div>

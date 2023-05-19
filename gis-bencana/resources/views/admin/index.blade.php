@@ -2,99 +2,33 @@
 
 @push('csss')
 <link href="{{asset('mapbox/mapbox-gl.css')}}" rel="stylesheet">
-<style type="text/css">
-	.legend {
-		background-color: #fff;
-		border-radius: 3px;
-		bottom: 30px;
-		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-		font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-		padding: 10px;
-		position: absolute;
-		right: 10px;
-		z-index: 1;
-	}
-
-	.legend h4 {
-		margin: 0 0 10px;
-	}
-
-	.legend div span {
-		border-radius: 50%;
-		display: inline-block;
-		height: 10px;
-		margin-right: 5px;
-		width: 10px;
-	}
-
-	.legend2 {
-		background-color: #fff;
-		border-radius: 3px;
-		bottom: 30px;
-		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-		font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-		padding: 10px;
-		position: absolute;
-		left: 10px;
-		z-index: 1;
-	}
-
-	.legend2 h4 {
-		margin: 0 0 10px;
-	}
-
-	.legend2 div span {
-		border-radius: 50%;
-		display: inline-block;
-		height: 10px;
-		margin-left: 5px;
-		width: 10px;
-	}
-
-	.marker {
-		background-image: url('mapbox-icon.png');
-		background-size: cover;
-		width: 50px;
-		height: 50px;
-		border-radius: 50%;
-		cursor: pointer;
-	}
-
-	.mapboxgl-popup {
-		max-width: 400px;
-		font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-	}
-
-	.coordinates {
-		background: rgba(0, 0, 0, 0.5);
-		color: #fff;
-		position: absolute;
-		bottom: 60px;
-		left: 40px;
-		padding: 5px 10px;
-		margin: 0;
-		font-size: 11px;
-		line-height: 18px;
-		border-radius: 3px;
-		display: none;
-	}
-</style>
 @endpush
 
 @section('content')
 <section class="section dashboard">
 	<div class="row justify-content-center card">
-		<div class="col-12">
-			<div id="maps" style="height:500px;">
-				<div id="state-legend" class="legend">
-					<h6>Keterangan</h6>
-					<div><span style="background-color: #000000"></span>Sangat Tinggi</div>
-					<div><span style="background-color: #FF0000"></span>Tinggi</div>
-					<div><span style="background-color: #FFFF00"></span>Medium</div>
-					<div><span style="background-color: #008000"></span>Rendah</div>
-					<div><span style="background-color: #c8d1e1"></span>Kosong</div>
+		<div class="col-12 mt-3 mb-3">
+			<div class="row">
+				<div class="col-3">
+					<select class="form-control" id="bencana" name="bencana">
+						@foreach($data['bencana'] as $key => $value)
+						<option value="{{$value['id']}}">{{$value['nama_bencana']}}</option>
+						@endforeach
+					</select>
+				</div>
+				<div class="col-3">
+					<input type="date" class="form-control" id="tanggal1" name="tanggal1">
+				</div>
+				<div class="col-3">
+					<input type="date" class="form-control" id="tanggal2" name="tanggal2">
+				</div>
+				<div class="col-3">
+					<button type="button" class="btn btn-primary" id="btn_lihat">Lihat</button>
 				</div>
 			</div>
+		</div>
+		<div id="maps" style="height:500px;">
+			@include('layouts.keterangan')
 		</div>
 	</div>
 </section>
@@ -102,193 +36,5 @@
 
 @push('jss')
 <script src="{{asset('mapbox/mapbox-gl.js')}}"></script>
-<script>
-	var device;
-	if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-		device = [
-			[111.75913914489564, -8.669228758626588],
-			[112.45263414965126, -7.170129037865038]
-			];
-	} else {
-            // false for not mobile device
-		device = [
-			[111.52119039287481, -8.040812976926816],
-			[112.69129014605602, -7.586629911014967]
-			];
-	}
-	mapboxgl.accessToken = '{{env("MAPBOX_KEY")}}';
-
-	const map = new mapboxgl.Map(
-	{
-		container: 'maps',
-		style: 'mapbox://styles/mapbox/light-v11',
-		center: [112.03, -7.824],
-		zoom: 11.5,
-		maxBounds: device,
-	});
-
-	var hoveredStateId1 = null;
-
-	map.on('load', function () {
-		map.loadImage('https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png', function(error, image) {
-			if (error) {
-				throw error
-			}
-			map.addImage('custom-marker', image);
-
-			map.addSource('maine', {
-				'type': 'geojson',
-				'data': {
-					'type': 'FeatureCollection',
-					'features': 
-					[
-						<?php 
-						$a = '{';
-						$b = ',';
-
-						use App\Models\Bencana;
-						use App\Models\BencanaPerWilayah;
-						use App\Models\DataBencanaPerWilayah;
-
-						foreach ($data['wilayah'] as $wilayah) { 
-							$id = $wilayah->id;
-
-							$data_bencana = BencanaPerWilayah::where('id_wilayah','=',$wilayah->id)->get();
-							$isi = "";
-							$total_bencana_per_wilayah = 0;
-
-							if ($data_bencana!=null) {
-								foreach ($data_bencana as $db) {
-									
-									// data bencana
-									$nama_bencana = Bencana::find($db->id_bencana);
-									$isi .= $nama_bencana->nama_bencana;
-
-									$total_data_bencana = DataBencanaPerWilayah::where('id_bencana_per_wilayah','=',$db->id_bencana_per_wilayah)->get(); 
-									$jumlah_bencana_per_wilayah = 0;
-									if ($total_data_bencana!=null) {
-										foreach($total_data_bencana as $tdb){
-											$jumlah_bencana_per_wilayah += $tdb->jumlah;
-											$total_bencana_per_wilayah+=$tdb->jumlah;
-										}
-									}
-									$isi .= " ".$jumlah_bencana_per_wilayah." Kejadian<br>";
-
-								}
-							}
-							echo $a;
-							// echo $wilayah->file_wilayah;
-							echo file_get_contents("Data_Wilayah/".$wilayah->file_wilayah); 
-							echo $b;
-							echo '"id":'.'"'.$id.'",';
-							echo '"properties":{
-								"nama":'.'"'.$wilayah->nama_wilayah.'"'.',
-								"wilayah":'.'"'.$isi.'"'.',
-								"bencana":'.$total_bencana_per_wilayah.'}},
-								';
-
-							}
-							?>
-							]
-				}
-			});
-
-			map.addLayer({ 
-				'id': 'isi',
-				'type': 'fill', 
-				'source': 'maine', 
-				'layout': {},
-				'paint': {
-					'fill-color': [
-						"case",
-						['<=', ['get', "bencana"], 0], "#c8d1e1",
-						['<=', ['get', "bencana"], 15], "#008000",
-						['<=', ['get', "bencana"], 30], "#FFFF00",
-						['<=', ['get', "bencana"], 45], "#FF0000",
-						['>', ['get', "bencana"], 60], "#000000",
-						'#123456'
-						],
-					'fill-opacity': [
-						'case',
-						['boolean', ['feature-state', 'hover'], false],
-						1,
-						0.5
-						]
-				}
-			});
-
-			map.addLayer({
-				'id': 'batas',
-				'type': 'line',
-				'source': 'maine',
-				'layout': {},
-				'paint': {
-					'line-width': 1,
-					'line-color': '#f0ffff'
-				}
-			});
-
-			var popup1 = new mapboxgl.Popup({
-				closeButton: false,
-				closeOnClick: false
-			});
-
-			map.on('mousemove', 'isi', function(e) {
-
-				if (e.features.length > 0) {
-					if (hoveredStateId1) {
-						map.getCanvas().style.cursor = 'pointer';
-						var feature1 = e.features[0];
-						popup1.setLngLat(e.lngLat)
-						.setHTML(
-							'<p class="text-center">'+
-							'<h6>'+
-							'<strong>' +
-							feature1.properties.nama +
-							'</strong>'+
-							'</h6>'+
-							feature1.properties.wilayah+
-							// '<br>' +
-							// feature1.properties.bencana+
-							'</p>'
-							)
-						.addTo(map);
-						map.setFeatureState({
-							source: 'maine',
-							id: hoveredStateId1
-						}, {
-							hover: false
-						});
-					}
-					hoveredStateId1 = e.features[0].id;
-					map.setFeatureState({
-						source: 'maine',
-						id: hoveredStateId1
-					}, {
-						hover: true
-					});
-				}
-			});
-
-			map.on('mouseleave', 'isi', function() {
-				if (hoveredStateId1) {
-					map.getCanvas().style.cursor = '';
-					popup1.remove();
-					map.setFeatureState({
-						source: 'maine',
-						id: hoveredStateId1
-					}, {
-						hover: false
-					});
-				}
-				hoveredStateId1 = null;
-			});
-
-		});
-
-		map.on('idle', function() {
-			map.resize()
-		});
-	});
-</script>
+@include('admin.maps')
 @endpush
