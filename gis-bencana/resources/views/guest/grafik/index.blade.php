@@ -30,7 +30,6 @@
 @endsection
 
 @push('jss')
-<script src="{{asset('Jquery')}}\jquery-3.6.4.min.js"></script>
 <script>
 // Data retrieved from https://gs.statcounter.com/browser-market-share#monthly-202201-202201-bar
 

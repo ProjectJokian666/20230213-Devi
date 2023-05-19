@@ -63,6 +63,7 @@
 
   <!-- Template Main JS File -->
   <script src="{{asset('NiceAdmin/assets/js/main.js')}}"></script>
+  <script src="{{asset('Jquery')}}\jquery-3.6.4.min.js"></script>
   @stack('jss')
 </body>
 

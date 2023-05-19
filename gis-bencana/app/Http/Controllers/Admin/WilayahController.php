@@ -29,7 +29,21 @@ class WilayahController extends Controller
             return redirect('login');
         }
     }
-
+    public function create_wilayah()
+    {
+        if (Auth::check()) {
+            if (Auth()->User()->role!='Admin') {
+                return redirect('/');
+            }
+            $data = [
+                'wilayah' => Wilayah::all(),
+            ];
+            return view('Admin.wilayah.add',compact('data'));
+        }
+        else{
+            return redirect('login');
+        }
+    }
     public function add_wilayah(Request $request)
     {
         if (Auth::check()) {
@@ -59,6 +73,19 @@ class WilayahController extends Controller
         else{
             return redirect('login');
         }
+    }
+
+    public function post_file()
+    {
+        dd(request());
+    }
+    public function data_post_file(Request $request)
+    {
+        $data = [
+            'data' => $request,
+        ];
+        return response()->json($data);
+        // return view('Admin.Wilayah.lihat',compact('data'));
     }
 
     public function update_wilayah(Request $request)

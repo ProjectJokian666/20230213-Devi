@@ -25,7 +25,8 @@
 				<div class="card-body">
 					<div class="d-flex mt-4 mb-4 justify-content-between">
 						<h5>Tabel Wilayah</h5>
-						<button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#create_wilayah">TAMBAH DATA</button>
+						<a href="{{route('admin.create_wilayah')}}" class="btn btn-sm btn-primary">TAMBAH DATA</a>
+						<!-- <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#create_wilayah">TAMBAH DATA</button> -->
 						@include('admin.wilayah.create')
 					</div>
 					<!-- Default Table -->

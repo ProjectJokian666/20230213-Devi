@@ -79,6 +79,9 @@ Route::middleware('auth')->group(function(){
         Route::patch('update_wilayah',[AdminWilayah::class,'update_wilayah'])->name('.update_wilayah');
         Route::delete('delete_wilayah',[AdminWilayah::class,'delete_wilayah'])->name('.delete_wilayah');
 
+        Route::get('add_wilayah',[AdminWilayah::class,'create_wilayah'])->name('.create_wilayah');
+        Route::get('post_file',[AdminWilayah::class,'post_file'])->name('.post_file');
+        Route::post('post_file',[AdminWilayah::class,'data_post_file'])->name('.data_post_file');
         Route::get('cek_file',[AdminWilayah::class,'cek_file'])->name('.cek_file');
     });
     
