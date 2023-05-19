@@ -33,7 +33,56 @@
         </div>
 
       </form>
-
+      <hr>
+      <div class="modal-body">
+        <div id="preview"></div>
+      </div>
     </div>
   </div>
 </div>
+
+@push('jss')
+<script src="{{asset('Jquery')}}\jquery-3.6.4.min.js"></script>
+<script type="text/javascript">
+  console.log('aaaaaaaaaaaa');
+
+  $(document).ready(function(){
+    $('#file_wilayah').on('input',function(){
+      var namaFile = $(this).val();
+      $.ajax({
+        url:"{{route('admin.cek_file')}}",
+        type:"GET",
+        data:{
+          urlFile:namaFile,
+        },
+        success:function(response){
+          // console.log(response);
+          $('#preview').text(response.nama_file);
+        },
+        error:function(response){
+          console.log(response);
+        }
+      });
+    });
+  });
+
+  // const fileInput = document.getElementById('file_wilayah');
+  // fileInput.addEventListener('change',(event)=>{
+  //   // console.log('pilih file');
+  //   console.log($("#file_wilayah").val());
+  //   $.ajax({
+  //     url:"{{route('admin.cek_file')}}",
+  //     type:"POST",
+  //     data:{
+  //       urlFile:$("#file_wilayah").val(),
+  //     },
+  //     success:function(response){
+  //       console.log(response);
+  //     },
+  //     error:function(response){
+  //       console.log(response);
+  //     }
+  //   });
+  // });
+</script>
+@endpush

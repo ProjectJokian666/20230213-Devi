@@ -24,20 +24,26 @@ class PetaController extends Controller
     }
     public function get_peta()
     {
-        $area = null;
+        $data = [];
         // dd(Wilayah::all());
         foreach(Wilayah::all() as $key => $value){
             if (file_exists("Data_Wilayah/".$value->file_wilayah)) {
+                array_push($data,[
+                    'id' => $value->id,
+                    'nama' => $value->nama_wilayah,
+                    'file' => $value->file_wilayah,
+                    ''
+                ]);
                 // echo $value;
                 // $area .= '{'.file_get_contents("Data_Wilayah/".$value->file_wilayah).'},';
-                $area .= fopen("Data_Wilayah/".$value->file_wilayah,"w");
+                // $area .= fopen("Data_Wilayah/".$value->file_wilayah,"w");
             }
         }
-        dd($area);
+        // dd($area);
         // array_push($area,trim($a,"\r\n"));
 
         $data = [
-            'Area' => $area,
+            'Area' => $data,
         ];
         return response()->json($data,200);
     }

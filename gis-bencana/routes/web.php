@@ -62,6 +62,7 @@ Route::middleware('auth')->group(function(){
             Route::post('wilayah/{id}',[AdminBencana::class,'add_wilayah'])->name('.add_wilayah');
             Route::patch('wilayah/{id}',[AdminBencana::class,'patch_wilayah'])->name('.patch_wilayah');
             Route::delete('wilayah/{id}',[AdminBencana::class,'delete_wilayah'])->name('.delete_wilayah');
+
         });
 
         Route::prefix('data')->name('data')->group(function(){
@@ -77,6 +78,8 @@ Route::middleware('auth')->group(function(){
         Route::post('add_wilayah',[AdminWilayah::class,'add_wilayah'])->name('.add_wilayah');
         Route::patch('update_wilayah',[AdminWilayah::class,'update_wilayah'])->name('.update_wilayah');
         Route::delete('delete_wilayah',[AdminWilayah::class,'delete_wilayah'])->name('.delete_wilayah');
+
+        Route::get('cek_file',[AdminWilayah::class,'cek_file'])->name('.cek_file');
     });
     
     Route::prefix('petugas')->name('petugas')->group(function(){

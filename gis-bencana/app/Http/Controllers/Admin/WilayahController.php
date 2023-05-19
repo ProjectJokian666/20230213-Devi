@@ -134,4 +134,14 @@ class WilayahController extends Controller
             return redirect('login');
         }
     }
+
+    public function cek_file(Request $request)
+    {   
+        // dd(request()->urlFile);
+        $previewData = [
+            'nama_file'=> request()->urlFile,
+        ];
+
+        return response()->json($previewData);
+    }
 }
