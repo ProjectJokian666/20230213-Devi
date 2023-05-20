@@ -28,20 +28,67 @@ class AdminController extends Controller
         // dd(request());
         $array_bencana = [];
 
-        foreach (Wilayah::all() as $key_bencana => $value_bencana) {
-            $file_wilayah = file_get_contents('Data_Wilayah/'.$value_bencana['file_wilayah']);
-            $file_wilayah = str_replace([' ','\r\n'],['',''],$file_wilayah);
-            dd($file_wilayah);
-            array_push($array_bencana,[
-                'id'=>$value_bencana['id'],
-                'nama'=>$value_bencana['nama_wilayah'],
-                'wilayah'=>$file_wilayah,
-            ]);
+        $bencana = Bencana::find(request()->bencana);
+
+        $file_wilayah = "";
+
+        $i = 1;
+        $b = Wilayah::count();
+        foreach (Wilayah::all() as $key_wilayah => $value_wilayah) {
+            $i++;
+            // echo Wilayah::count();
+            $file_wilayah .= "{";
+            $file_wilayah .= '"id":'.$value_wilayah['id'];
+            $file_wilayah .= '"nama":'.$value_wilayah['nama_wilayah'];
+            // $file_wilayah .= file_get_contents('Data_Wilayah/'.$value_wilayah['file_wilayah']);
+            if ($i<$b) {
+                $file_wilayah .= "},";
+            }
+            else{
+                $file_wilayah .= "}";
+            }
+            // $file_wilayah = file_get_contents('Data_Wilayah/'.$value_bencana['file_wilayah']);
+            // $file_wilayah = str_replace([' ','\r\n'],['','',''],$file_wilayah);
+            // $file_wilayah = json_encode("{".$file_wilayah."}");
+            // dd($file_wilayah);
+            // array_push($array_bencana,[
+            //     'id'=>$value_bencana['id'],
+            //     'nama'=>$value_bencana['nama_wilayah'],
+            //     'wilayah'=>$file_wilayah,
+            // ]);
         }
         $data = [
-            'bencana'=>$array_bencana,
+            // 'bencana'=>$array_bencana,
+            'wilayah'=>$file_wilayah,
         ];
-        dd($data);
+        // dd($data);
+        return response()->json($data);
+    }
+    public function get_maps2()
+    {
+        // dd(request());
+        $array_bencana = [];
+
+        $bencana = Bencana::find(request()->bencana);
+
+        $file_wilayah = "";
+
+        foreach (Wilayah::all() as $key_bencana => $value_bencana) {
+            $file_wilayah = file_get_contents('Data_Wilayah/'.$value_bencana['file_wilayah']);
+            // $file_wilayah = str_replace([' ','\r\n'],['','',''],$file_wilayah);
+            // $file_wilayah = json_encode("{".$file_wilayah."}");
+            // dd($file_wilayah);
+            // array_push($array_bencana,[
+            //     'id'=>$value_bencana['id'],
+            //     'nama'=>$value_bencana['nama_wilayah'],
+            //     'wilayah'=>$file_wilayah,
+            // ]);
+        }
+        $data = [
+            // 'bencana'=>$array_bencana,
+            'wilayah'=>$file_wilayah,
+        ];
+        // dd($data);
         return response()->json($data);
     }
 }

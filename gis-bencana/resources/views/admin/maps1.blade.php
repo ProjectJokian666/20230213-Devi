@@ -52,18 +52,14 @@
 				success:function(data){
 					data_wilayah = data.wilayah;
 					// console.log(data_wilayah)
-					// data_wilayah = JSON.parse(data_wilayah);
+					data_wilayah = JSON.parse("{"+data_wilayah+"}");
 					// console.log('ko console',data_wilayah);
 
 					map.addSource('data_source',{
 						'type':'geojson',
-						'data':{
-							'type':'FeatureCollection',
-							'features':[data_wilayah]
-						},
+						'data':data_wilayah,
 					});
-					console.log(data_wilayah)
-					
+
 					map.addLayer({
 						'id': 'maine',
 						'type': 'fill',
@@ -101,29 +97,14 @@
 		else{
 			// console.log('masuk else')
 			map.on('load',()=>{
-				map.addSource('data_source', {
-					'type': 'geojson',
+				map.addSource('data_source',{
+					'type':'geojson',
 					'data': {
-						'type': 'FeatureCollection',
-						'features': [
-							<?php
-
-							use App\Models\Bencana;
-							use App\Models\BencanaPerWilayah;
-							use App\Models\DataBencanaPerWilayah;
-
-							// menampilkan data wilayah 
-							foreach ($data['wilayah'] as $key => $value_wilayah) {
-
-								echo '{';
-								echo '"id":"'.$value_wilayah['id'].'",';
-								echo '"nama":"'.$value_wilayah['nama_wilayah'].'",';
-								echo file_get_contents("Data_Wilayah/".$value_wilayah['file_wilayah']);
-								echo "},";
-
-							}
-							?>
-							]
+						'type': 'Feature',
+						'geometry': {
+							'type': 'Polygon',
+							'coordinates': []
+						}
 					}
 				});
 				map.addLayer({
