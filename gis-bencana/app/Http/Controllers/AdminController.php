@@ -32,15 +32,15 @@ class AdminController extends Controller
 
         $file_wilayah = "";
 
-        $i = 1;
+        $i = 0;
         $b = Wilayah::count();
         foreach (Wilayah::all() as $key_wilayah => $value_wilayah) {
             $i++;
             // echo Wilayah::count();
             $file_wilayah .= "{";
-            $file_wilayah .= '"id":'.$value_wilayah['id'];
-            $file_wilayah .= '"nama":'.$value_wilayah['nama_wilayah'];
-            // $file_wilayah .= file_get_contents('Data_Wilayah/'.$value_wilayah['file_wilayah']);
+            $file_wilayah .= '"id":"'.$value_wilayah['id'].'",';
+            $file_wilayah .= '"nama":"'.$value_wilayah['nama_wilayah'].'",';
+            $file_wilayah .= file_get_contents('Data_Wilayah/'.$value_wilayah['file_wilayah']);
             if ($i<$b) {
                 $file_wilayah .= "},";
             }
@@ -57,6 +57,9 @@ class AdminController extends Controller
             //     'wilayah'=>$file_wilayah,
             // ]);
         }
+        // $file_wilayah = str_replace([' ','\r\n'],['','',''],$file_wilayah);
+        // $file_wilayah = json_encode($file_wilayah);
+
         $data = [
             // 'bencana'=>$array_bencana,
             'wilayah'=>$file_wilayah,

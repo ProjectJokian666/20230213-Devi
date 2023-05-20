@@ -52,17 +52,22 @@
 				success:function(data){
 					data_wilayah = data.wilayah;
 					// console.log(data_wilayah)
-					// data_wilayah = JSON.parse(data_wilayah);
 					// console.log('ko console',data_wilayah);
+					data_wilayah = data_wilayah.replaceAll('\r\n','');
+					data_wilayah = data_wilayah.replaceAll(' ','');
+					// console.log('belum json',data.wilayah)
+					data_wilayah = JSON.parse('['+data_wilayah+']');
+
+					// console.log('sudah json',data.wilayah)
 
 					map.addSource('data_source',{
 						'type':'geojson',
 						'data':{
 							'type':'FeatureCollection',
-							'features':[data_wilayah]
+							'features':data_wilayah
 						},
 					});
-					console.log(data_wilayah)
+					// console.log('tidak',data_wilayah)
 					
 					map.addLayer({
 						'id': 'maine',
@@ -99,8 +104,8 @@
 			// });
 		}
 		else{
-			// console.log('masuk else')
 			map.on('load',()=>{
+				// console.log('load maps');
 				map.addSource('data_source', {
 					'type': 'geojson',
 					'data': {
