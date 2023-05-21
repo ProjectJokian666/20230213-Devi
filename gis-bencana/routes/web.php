@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\WilayahController as AdminWilayah;
 use App\Http\Controllers\Admin\BencanaController as AdminBencana;
 use App\Http\Controllers\Admin\DataController as Admindata;
 use App\Http\Controllers\Admin\BencanaPerWilayahController as AdminBencanaPerWilayah;
+use App\Http\Controllers\Admin\SetWilayahBencanaController as SetWilayahBencana;
 
 use App\Http\Controllers\PetugasController as Petugas;
 use App\Http\Controllers\Petugas\WilayahController as PetugasWilayah;
@@ -57,6 +58,16 @@ Route::middleware('auth')->group(function(){
         Route::delete('delete_petugas',[AdminPetugas::class,'delete_petugas'])->name('.delete_petugas');
 
         Route::prefix('bencana')->name('.bencana')->group(function(){
+            Route::get('',[AdminBencana::class,'bencana']);
+
+            Route::get('wilayah/{id}',[AdminBencana::class,'wilayah'])->name('.wilayah');
+            Route::post('wilayah/{id}',[AdminBencana::class,'add_wilayah'])->name('.add_wilayah');
+            Route::patch('wilayah/{id}',[AdminBencana::class,'patch_wilayah'])->name('.patch_wilayah');
+            Route::delete('wilayah/{id}',[AdminBencana::class,'delete_wilayah'])->name('.delete_wilayah');
+
+        });
+        
+        Route::prefix('setwilayahbencana')->name('.setwilayahbencana')->group(function(){
             Route::get('',[AdminBencana::class,'bencana']);
 
             Route::get('wilayah/{id}',[AdminBencana::class,'wilayah'])->name('.wilayah');
