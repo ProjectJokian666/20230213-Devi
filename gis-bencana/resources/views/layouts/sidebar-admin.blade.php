@@ -13,9 +13,9 @@
   </a>
 </li>
 <li class="nav-item">
-  <a class="nav-link collapsed" href="{{url('admin/wilayah')}}">
+  <a class="nav-link collapsed" href="{{url('admin/setwilayahbencana')}}">
     <i class="bi bi-map-fill"></i>
-    <span>Wilayah Bencana</span>
+    <span>Set Wilayah Bencana</span>
   </a>
 </li>
 <li class="nav-item">
