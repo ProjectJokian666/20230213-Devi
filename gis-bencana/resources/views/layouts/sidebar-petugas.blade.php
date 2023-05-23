@@ -3,18 +3,18 @@
 <li class="nav-item">
   <a class="nav-link collapsed" href="{{url('petugas/bencana')}}">
     <i class="bi bi-cloud-lightning-rain"></i>
-    <span>Bencana</span>
-  </a>
-</li>
-<li class="nav-item">
-  <a class="nav-link collapsed" href="{{url('petugas/data')}}">
-    <i class="bi bi-book-half"></i>
-    <span>Data</span>
+    <span>Data Bencana</span>
   </a>
 </li>
 <li class="nav-item">
   <a class="nav-link collapsed" href="{{url('petugas/wilayah')}}">
     <i class="bi bi-map"></i>
-    <span>Wilayah</span>
+    <span>Data Wilayah</span>
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link collapsed" href="{{url('petugas/data')}}">
+    <i class="bi bi-book-half"></i>
+    <span>Rekap Data</span>
   </a>
 </li>

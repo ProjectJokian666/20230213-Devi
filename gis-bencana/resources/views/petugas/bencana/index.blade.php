@@ -59,7 +59,7 @@
 								<td>
 									<button type="button" class="btn btn-sm btn-info text-white" data-bs-toggle="modal" data-bs-target="#update_petugas_{{$bencana->id}}">UBAH DATA</button>
 									@include('petugas.bencana.update')
-									<a href="{{url('petugas/bencana/wilayah',$bencana->id)}}" class="btn btn-sm btn-success">WILAYAH</a>
+									<!-- <a href="{{url('petugas/bencana/wilayah',$bencana->id)}}" class="btn btn-sm btn-success">WILAYAH</a> -->
 								</td>
 							</tr>
 							@endforeach

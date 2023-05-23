@@ -55,7 +55,7 @@
 									@include('admin.bencana.update')
 									<button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete_petugas_{{$value['id']}}">HAPUS DATA</button>
 									@include('admin.bencana.delete')
-									<a href="{{url('admin/bencana/wilayah',$value['id'])}}" class="btn btn-sm btn-success">WILAYAH</a>
+									<!-- <a href="{{url('admin/bencana/wilayah',$value['id'])}}" class="btn btn-sm btn-success">WILAYAH</a> -->
 								</td>
 							</tr>
 							@endforeach

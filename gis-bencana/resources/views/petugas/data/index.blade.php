@@ -24,44 +24,45 @@
 			<div class="card">
 				<div class="card-body">
 					<div class="d-flex mt-4 mb-4 justify-content-between">
-						<h5>Tabel Bencana</h5>
+						<h5>Tabel Rekap</h5>
 					</div>
 					<!-- Default Table -->
 					<table class="table datatable table-sm text-center">
 						<thead>
 							<tr>
 								<th scope="col">No.</th>
-								<th scope="col">Nama</th>
-								<th scope="col">Deskripsi</th>
+								<th scope="col">Nama Bencana</th>
+								<th scope="col">Wilayah</th>
+								<th scope="col">Terdampak ( % )</th>
 								<th scope="col">Aksi</th>
 							</tr>
 						</thead>
 						<tbody>
-							@foreach($data['bencana'] as $bencana)
+							<?php 
+							$no = 1;
+							?>
+							@foreach($data['bencana'] as $key => $value)
+							@if($value->bencanaperwilayah->count())
+							@foreach($value->bencanaperwilayah as $key_wilayah => $value_wilayah)
 							<tr>
-								<td>{{$loop->iteration}}</td>
-								<td>{{$bencana->nama_bencana}}</td>
+								<td><?= $no++; ?></td>
+								<td>{{$value->nama_bencana}}</td>
+								<td>{{$value->nama_wilayah($value_wilayah['id_bencana_per_wilayah'])->wilayah->nama_wilayah}}</td>
+								<td>{{$value_wilayah->terdampak($value_wilayah['id_bencana_per_wilayah'],$value_wilayah['id_bencana'])}} %</td>
 								<td>
-									{{
-										strlen($bencana->deskripsi_bencana)==0
-										?
-										"kosong"
-										:
-										(
-										strlen($bencana->deskripsi_bencana)>=30
-										?
-										substr($bencana->deskripsi_bencana,0,30).'...'
-										:
-										$bencana->deskripsi_bencana
-										)
-									}}
-								</td>
-								<td>
-									<button type="button" class="btn btn-sm btn-info text-white" data-bs-toggle="modal" data-bs-target="#update_petugas_{{$bencana->id}}">UBAH DATA</button>
-									@include('petugas.bencana.update')
-									<a href="{{url('petugas/bencana/wilayah',$bencana->id)}}" class="btn btn-sm btn-success">WILAYAH</a>
+									<a href="{{url('petugas/data/detail',$value_wilayah['id_bencana_per_wilayah'])}}" class="btn btn-sm btn-info text-white">DETAIL</a>
 								</td>
 							</tr>
+							@endforeach
+							@else
+							<tr>
+								<td><?= $no++; ?></td>
+								<td>{{$value->nama_bencana}}</td>
+								<td>DATA KOSONG</td>
+								<td>DATA KOSONG</td>
+								<td>DATA KOSONG</td>
+							</tr>
+							@endif
 							@endforeach
 						</tbody>
 					</table>

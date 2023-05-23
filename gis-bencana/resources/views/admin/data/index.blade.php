@@ -24,7 +24,7 @@
 			<div class="card">
 				<div class="card-body">
 					<div class="d-flex mt-4 mb-4 justify-content-between">
-						<h5>Tabel Bencana</h5>
+						<h5>Tabel Rekap</h5>
 					</div>
 					<!-- Default Table -->
 					<table class="table datatable table-sm text-center">

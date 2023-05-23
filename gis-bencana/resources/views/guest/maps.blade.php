@@ -46,7 +46,7 @@
 			// console.log(tanggal1);
 			// console.log(tanggal2);
 			$.ajax({
-				url:"{{route('admin.get_maps')}}",
+				url:"{{route('get_maps')}}",
 				type:"GET",
 				data:{
 					bencana : bencana,
@@ -71,7 +71,7 @@
 						'paint': {
 							'fill-color': [
 								"case",
-								['<=', ['get', "data_bencana"], 0], "#c8d1e1",
+								['<', ['get', "data_bencana"], 0], "#c8d1e1",
 								['<=', ['get', "data_bencana"], 29], "#5cfc00",
 								['<=', ['get', "data_bencana"], 59], "#fc7600",
 								['<=', ['get', "data_bencana"], 100], "#360602",
@@ -108,7 +108,7 @@
 			tanggal2 = $('#tanggal2').val()
 			map.on('load',function(){
 				$.ajax({
-					url:"{{route('admin.get_maps')}}",
+					url:"{{route('get_maps')}}",
 					type:"GET",
 					data:{
 						bencana : bencana,
