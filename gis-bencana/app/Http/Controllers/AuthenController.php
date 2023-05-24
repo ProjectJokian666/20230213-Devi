@@ -59,18 +59,115 @@ class AuthenController extends Controller
 	public function pprofil(Request $request)
 	{
 		if ($request->password!=null) {
-			$data = User::where('id','=',Auth()->User()->id)->update([
-				'name' => $request->name,
-				'email' => $request->email,
-				'password' => Hash::make($request->password),
-			]);
+			if ($request->file('img_profil')) {
+				$get_data = User::find(Auth()->User()->id);
+				if ($get_data->foto==null) {
+					$file_img = $request->file('img_profil');
+					$nama_file_img = DATE('YmdHis').'.'.$file_img->getClientOriginalExtension();
+					$move_file = $file_img->move('Img',$nama_file_img);
+					if ($move_file) {
+						$data = User::where('id','=',Auth()->User()->id)->update([
+							'name' => $request->name,
+							'email' => $request->email,
+							'password' => Hash::make($request->password),
+							'foto' => $nama_file_img,
+						]);
+					}
+				}
+				else if($get_data->foto){
+					if (file_exists("Img/".$get_data->foto)) {
+						$hapus_file_img = unlink("Img/".$get_data->foto);
+						if($hapus_file_img){
+							$file_img = $request->file('img_profil');
+							$nama_file_img = DATE('YmdHis').'.'.$file_img->getClientOriginalExtension();
+							$move_file = $file_img->move('Img',$nama_file_img);
+							if ($move_file) {
+								$data = User::where('id','=',Auth()->User()->id)->update([
+									'name' => $request->name,
+									'email' => $request->email,
+									'password' => Hash::make($request->password),
+									'foto' => $nama_file_img,
+								]);
+							}
+						}
+					}
+					else{
+						$file_img = $request->file('img_profil');
+						$nama_file_img = DATE('YmdHis').'.'.$file_img->getClientOriginalExtension();
+						$move_file = $file_img->move('Img',$nama_file_img);
+						if ($move_file) {
+							$data = User::where('id','=',Auth()->User()->id)->update([
+								'name' => $request->name,
+								'email' => $request->email,
+								'password' => Hash::make($request->password),
+								'foto' => $nama_file_img,
+							]);
+						}						
+					}
+				}
+			}
+			else{
+				$data = User::where('id','=',Auth()->User()->id)->update([
+					'name' => $request->name,
+					'email' => $request->email,
+					'password' => Hash::make($request->password),
+				]);
+			}
 		}
 		if ($request->password==null) {
-			$data = User::where('id','=',Auth()->User()->id)->update([
-				'name' => $request->name,
-				'email' => $request->email,
-			]);
+			if ($request->file('img_profil')) {
+				$get_data = User::find(Auth()->User()->id);
+				if ($get_data->foto==null) {
+					$file_img = $request->file('img_profil');
+					$nama_file_img = DATE('YmdHis').'.'.$file_img->getClientOriginalExtension();
+					$move_file = $file_img->move('Img',$nama_file_img);
+					if ($move_file) {
+						$data = User::where('id','=',Auth()->User()->id)->update([
+							'name' => $request->name,
+							'email' => $request->email,
+							'foto' => $nama_file_img,
+						]);
+					}
+				}
+				else if($get_data->foto){
+					if (file_exists("Img/".$get_data->foto)) {
+						$hapus_file_img = unlink("Img/".$get_data->foto);
+						if($hapus_file_img){
+							$file_img = $request->file('img_profil');
+							$nama_file_img = DATE('YmdHis').'.'.$file_img->getClientOriginalExtension();
+							$move_file = $file_img->move('Img',$nama_file_img);
+							if ($move_file) {
+								$data = User::where('id','=',Auth()->User()->id)->update([
+									'name' => $request->name,
+									'email' => $request->email,
+									'foto' => $nama_file_img,
+								]);
+							}
+						}
+					}
+					else{
+						$file_img = $request->file('img_profil');
+						$nama_file_img = DATE('YmdHis').'.'.$file_img->getClientOriginalExtension();
+						$move_file = $file_img->move('Img',$nama_file_img);
+						if ($move_file) {
+							$data = User::where('id','=',Auth()->User()->id)->update([
+								'name' => $request->name,
+								'email' => $request->email,
+								'foto' => $nama_file_img,
+							]);
+						}						
+					}
+				}
+			}
+			else{
+				$data = User::where('id','=',Auth()->User()->id)->update([
+					'name' => $request->name,
+					'email' => $request->email,
+				]);
+			}
+			// dd($request);
 		}
+		// dd($data);
 		if ($data) {
 			Auth::logout();
 			$data_user = User::where('email',$request->email)->first();
@@ -99,12 +196,13 @@ class AuthenController extends Controller
 	{
 		// dd($request);
 		if (Auth::check()) {
+
+			
 			if ($request->file('img_profil')) {
 				$get_data = User::find(Auth()->User()->id);
 				// dd($get_data);
 				//null img
 				if ($get_data->foto==null) {
-
 					$file_img = $request->file('img_profil');
 					$nama_file_img = DATE('YmdHis').'.'.$file_img->getClientOriginalExtension();
 					$move_file = $file_img->move('Img',$nama_file_img);
@@ -118,7 +216,6 @@ class AuthenController extends Controller
 					if (file_exists("Img/".$get_data->foto)) {
 						$hapus_file_img = unlink("Img/".$get_data->foto);
 						if($hapus_file_img){
-
 							$file_img = $request->file('img_profil');
 							$nama_file_img = DATE('YmdHis').'.'.$file_img->getClientOriginalExtension();
 							$move_file = $file_img->move('Img',$nama_file_img);
@@ -127,7 +224,6 @@ class AuthenController extends Controller
 									'foto' => $nama_file_img,
 								]);
 							}
-
 						}
 					}
 					else{
@@ -148,6 +244,8 @@ class AuthenController extends Controller
 					return redirect('profil')->with('gagal','Data gagal diubah');
 				}
 			}
+
+
 			return redirect()->route('profil');
 		}
 		else{

@@ -1,7 +1,9 @@
 @extends('layouts.app')
+
 @push('csss')
 <link rel="stylesheet" href="{{asset('Simple-DataTables-classic-master')}}/src/style.css">
 @endpush
+
 @section('content')
 <section class="section dashboard">
 	<div class="row">
@@ -25,32 +27,45 @@
 			<div class="card">
 				<div class="card-body">
 					<div class="d-flex mt-4 mb-4 justify-content-between">
-						<h5>Tabel Wilayah</h5>
-						<a href="{{route('admin.create_wilayah')}}" class="btn btn-sm btn-primary">TAMBAH DATA</a>
-						<!-- <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#create_wilayah">TAMBAH DATA</button> -->
-						@include('admin.wilayah.create')
+						<h5>Tabel Rekap</h5>
 					</div>
 					<!-- Default Table -->
 					<table class="table datatable table-sm text-center">
 						<thead>
 							<tr>
-								<th scope="col" class="text-center">No.</th>
-								<th scope="col" class="text-center">Wilayah</th>
-								<th scope="col" class="text-center">Aksi</th>
+								<th scope="col">No.</th>
+								<th scope="col">Nama Bencana</th>
+								<th scope="col">Wilayah</th>
+								<th scope="col">Terdampak ( % )</th>
+								<th scope="col">Aksi</th>
 							</tr>
 						</thead>
 						<tbody>
-							@foreach($data['wilayah'] as $wilayah)
+							<?php 
+							$no = 1;
+							?>
+							@foreach($data['bencana'] as $key => $value)
+							@if($value->bencanaperwilayah->count())
+							@foreach($value->bencanaperwilayah as $key_wilayah => $value_wilayah)
 							<tr>
-								<td>{{$loop->iteration}}</td>
-								<td>{{$wilayah->nama_wilayah}}</td>
+								<td><?= $no++; ?></td>
+								<td>{{$value->nama_bencana}}</td>
+								<td>{{$value->nama_wilayah($value_wilayah['id_bencana_per_wilayah'])->wilayah->nama_wilayah}}</td>
+								<td>{{$value_wilayah->terdampak($value_wilayah['id_bencana_per_wilayah'],$value_wilayah['id_bencana'])}} %</td>
 								<td>
-									<button type="button" class="btn btn-sm btn-info text-white" data-bs-toggle="modal" data-bs-target="#update_wilayah_{{$wilayah->id}}">UBAH DATA</button>
-									@include('admin.wilayah.update')
-									<button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete_wilayah_{{$wilayah->id}}">HAPUS DATA</button>
-									@include('admin.wilayah.delete')
+									<a href="{{url('data/detail',$value_wilayah['id_bencana_per_wilayah'])}}" class="btn btn-sm btn-info text-white">DETAIL</a>
 								</td>
 							</tr>
+							@endforeach
+							@else
+							<tr>
+								<td><?= $no++; ?></td>
+								<td>{{$value->nama_bencana}}</td>
+								<td>DATA KOSONG</td>
+								<td>DATA KOSONG</td>
+								<td>DATA KOSONG</td>
+							</tr>
+							@endif
 							@endforeach
 						</tbody>
 					</table>
@@ -61,6 +76,7 @@
 	</div>
 </section>
 @endsection
+
 @push('jss')
 <script src="{{asset('Simple-DataTables-classic-master')}}/simple-datatables-classic@latest.js"></script>
 <script type="text/javascript">

@@ -1,9 +1,15 @@
 <li class="nav-heading">Umum</li>
 
-<li class="nav-item">
+<!-- <li class="nav-item">
   <a class="nav-link collapsed" href="{{url('peta')}}">
     <i class="bi bi-map"></i>
     <span>Data Peta</span>
+  </a>
+</li> -->
+<li class="nav-item">
+  <a class="nav-link collapsed" href="{{url('data')}}">
+    <i class="bi bi-map"></i>
+    <span>Data Rekap</span>
   </a>
 </li>
 <li class="nav-item">

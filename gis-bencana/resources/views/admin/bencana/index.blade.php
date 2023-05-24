@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @push('csss')
+<link rel="stylesheet" href="{{asset('Simple-DataTables-classic-master')}}/src/style.css">
 @endpush
 @section('content')
 <section class="section dashboard">
@@ -32,10 +33,10 @@
 					<table class="table datatable table-sm text-center">
 						<thead>
 							<tr>
-								<th scope="col">No.</th>
-								<th scope="col">Nama Bencana</th>
-								<th scope="col">Deskripsi Bencana</th>
-								<th scope="col">Aksi</th>
+								<th scope="col" class="text-center">No.</th>
+								<th scope="col" class="text-center">Nama Bencana</th>
+								<th scope="col" class="text-center">Deskripsi Bencana</th>
+								<th scope="col" class="text-center">Aksi</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -69,5 +70,8 @@
 </section>
 @endsection
 @push('jss')
-
+<script src="{{asset('Simple-DataTables-classic-master')}}/simple-datatables-classic@latest.js"></script>
+<script type="text/javascript">
+	var table = new simpleDatatables.DataTable("table");
+</script>
 @endpush

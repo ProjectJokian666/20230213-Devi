@@ -20,7 +20,9 @@ use App\Http\Controllers\Petugas\BencanaController as PetugasBencana;
 use App\Http\Controllers\Petugas\DataController as Petugasdata;
 use App\Http\Controllers\Petugas\SetWilayahBencanaController as PetugasSetWilayahBencana;
 
+
 use App\Http\Controllers\Guest\PetaController as Peta;
+use App\Http\Controllers\Guest\DataController as GuestData;
 use App\Http\Controllers\Guest\GrafikController as Grafik;
 use App\Http\Controllers\Guest\InformasiController as Informasi;
 
@@ -37,11 +39,17 @@ Route::prefix('grafik')->name('grafik.')->group(function(){
 });
 Route::prefix('informasi')->name('informasi.')->group(function(){
     Route::get('',[Informasi::class,'informasi'])->name('informasi');
+    Route::get('get_auto_gempa',[Informasi::class,'get_auto_gempa'])->name('get_auto_gempa');
 });
 
 Route::middleware('guest')->group(function(){
     Route::get('login',[Authen::class,'login'])->name('login');
     Route::post('login',[Authen::class,'plogin'])->name('plogin');
+
+    Route::prefix('data')->name('data')->group(function(){
+        Route::get('',[GuestData::class,'data']);
+        Route::get('detail/{id}',[GuestData::class,'detail'])->name('.detail');
+    });
 });
 
 Route::middleware('auth')->group(function(){

@@ -1,0 +1,4 @@
+dist/
+node_modules/
+tests/qunit.css
+package-lock.json

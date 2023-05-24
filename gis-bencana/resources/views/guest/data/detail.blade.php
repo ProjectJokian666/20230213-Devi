@@ -1,7 +1,9 @@
 @extends('layouts.app')
+
 @push('csss')
 <link rel="stylesheet" href="{{asset('Simple-DataTables-classic-master')}}/src/style.css">
 @endpush
+
 @section('content')
 <section class="section dashboard">
 	<div class="row">
@@ -25,31 +27,24 @@
 			<div class="card">
 				<div class="card-body">
 					<div class="d-flex mt-4 mb-4 justify-content-between">
-						<h5>Tabel Wilayah</h5>
-						<a href="{{route('admin.create_wilayah')}}" class="btn btn-sm btn-primary">TAMBAH DATA</a>
-						<!-- <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#create_wilayah">TAMBAH DATA</button> -->
-						@include('admin.wilayah.create')
+						<h5>Tabel Bencana {{$data['bencana']}} Wilayah {{$data['wilayah']}}</h5>
+						<a href="{{url('data')}}" class="btn btn-sm btn-primary">KEMBALI</a>
 					</div>
 					<!-- Default Table -->
 					<table class="table datatable table-sm text-center">
 						<thead>
 							<tr>
-								<th scope="col" class="text-center">No.</th>
-								<th scope="col" class="text-center">Wilayah</th>
-								<th scope="col" class="text-center">Aksi</th>
+								<th scope="col">No.</th>
+								<th scope="col">Tanggal Terjadi</th>
+								<th scope="col">Jumlah</th>
 							</tr>
 						</thead>
 						<tbody>
-							@foreach($data['wilayah'] as $wilayah)
+							@foreach($data['data'] as $key => $value)
 							<tr>
 								<td>{{$loop->iteration}}</td>
-								<td>{{$wilayah->nama_wilayah}}</td>
-								<td>
-									<button type="button" class="btn btn-sm btn-info text-white" data-bs-toggle="modal" data-bs-target="#update_wilayah_{{$wilayah->id}}">UBAH DATA</button>
-									@include('admin.wilayah.update')
-									<button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete_wilayah_{{$wilayah->id}}">HAPUS DATA</button>
-									@include('admin.wilayah.delete')
-								</td>
+								<td>{{$value['tgl_terjadi']}}</td>
+								<td>{{$value['jumlah']}}</td>
 							</tr>
 							@endforeach
 						</tbody>
@@ -61,6 +56,7 @@
 	</div>
 </section>
 @endsection
+
 @push('jss')
 <script src="{{asset('Simple-DataTables-classic-master')}}/simple-datatables-classic@latest.js"></script>
 <script type="text/javascript">

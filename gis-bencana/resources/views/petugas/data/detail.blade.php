@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @push('csss')
+<link rel="stylesheet" href="{{asset('Simple-DataTables-classic-master')}}/src/style.css">
 @endpush
 @section('content')
 <section class="section dashboard">
@@ -53,6 +54,10 @@
 @endsection
 
 @push('jss')
+<script src="{{asset('Simple-DataTables-classic-master')}}/simple-datatables-classic@latest.js"></script>
+<script type="text/javascript">
+	var table = new simpleDatatables.DataTable("table");
+</script>
 <script type="text/javascript">
 	show_data()
 	// console.log("{{$data['wilayah']->id_bencana_per_wilayah}}")
