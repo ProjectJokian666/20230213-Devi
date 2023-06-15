@@ -9,7 +9,7 @@
 <li class="nav-item">
   <a class="nav-link collapsed" href="{{url('data')}}">
     <i class="bi bi-map"></i>
-    <span>Data Rekap</span>
+    <span>Data Terdampak</span>
   </a>
 </li>
 <li class="nav-item">

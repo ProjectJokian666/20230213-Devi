@@ -49,6 +49,16 @@ Route::middleware('guest')->group(function(){
     Route::prefix('data')->name('data')->group(function(){
         Route::get('',[GuestData::class,'data']);
         Route::get('detail/{id}',[GuestData::class,'detail'])->name('.detail');
+
+
+        Route::get('wilayah_by_bencana',[GuestData::class,'wilayah_by_bencana'])->name('.wilayah_by_bencana');
+        Route::get('tahun_by_wilayah_by_bencana',[GuestData::class,'tahun_by_wilayah_by_bencana'])->name('.tahun_by_wilayah_by_bencana');
+        Route::get('data_tahun_by_wilayah_by_bencana',[GuestData::class,'data_tahun_by_wilayah_by_bencana'])->name('.data_tahun_by_wilayah_by_bencana');
+
+        Route::get('show_wilayah_by_bencana',[GuestData::class,'show_wilayah_by_bencana'])->name('.show_wilayah_by_bencana');
+        Route::get('show_tahun_by_wilayah_by_bencana',[GuestData::class,'show_tahun_by_wilayah_by_bencana'])->name('.show_tahun_by_wilayah_by_bencana');
+        Route::get('show_data_tahun_by_wilayah_by_bencana',[GuestData::class,'show_data_tahun_by_wilayah_by_bencana'])->name('.show_data_tahun_by_wilayah_by_bencana');
+
     });
 });
 
@@ -86,9 +96,19 @@ Route::middleware('auth')->group(function(){
 
         });
 
-        Route::prefix('data')->name('data')->group(function(){
+        Route::prefix('data')->name('.data')->group(function(){
             Route::get('',[AdminData::class,'data']);
             Route::get('detail/{id}',[AdminData::class,'detail'])->name('.detail');
+
+
+            Route::get('wilayah_by_bencana',[AdminData::class,'wilayah_by_bencana'])->name('.wilayah_by_bencana');
+            Route::get('tahun_by_wilayah_by_bencana',[AdminData::class,'tahun_by_wilayah_by_bencana'])->name('.tahun_by_wilayah_by_bencana');
+            Route::get('data_tahun_by_wilayah_by_bencana',[AdminData::class,'data_tahun_by_wilayah_by_bencana'])->name('.data_tahun_by_wilayah_by_bencana');
+
+            Route::get('show_wilayah_by_bencana',[AdminData::class,'show_wilayah_by_bencana'])->name('.show_wilayah_by_bencana');
+            Route::get('show_tahun_by_wilayah_by_bencana',[AdminData::class,'show_tahun_by_wilayah_by_bencana'])->name('.show_tahun_by_wilayah_by_bencana');
+            Route::get('show_data_tahun_by_wilayah_by_bencana',[AdminData::class,'show_data_tahun_by_wilayah_by_bencana'])->name('.show_data_tahun_by_wilayah_by_bencana');
+
         });
 
         Route::post('add_bencana',[AdminBencana::class,'add_bencana'])->name('.add_bencana');
@@ -105,7 +125,7 @@ Route::middleware('auth')->group(function(){
         Route::post('post_file',[AdminWilayah::class,'data_post_file'])->name('.data_post_file');
         Route::get('cek_file',[AdminWilayah::class,'cek_file'])->name('.cek_file');
     });
-    
+
     Route::prefix('petugas')->name('petugas')->group(function(){
         Route::get('',[Petugas::class,'petugas']);
         Route::get('get_maps',[Petugas::class,'get_maps'])->name('.get_maps');
@@ -118,6 +138,7 @@ Route::middleware('auth')->group(function(){
             Route::patch('wilayah/{id}',[PetugasBencana::class,'update_wilayah'])->name('.update_wilayah');
             Route::patch('wilayah/{id}/ubah',[PetugasBencana::class,'ubah_wilayah'])->name('.ubah_wilayah');
             Route::delete('wilayah/{id}',[PetugasBencana::class,'delete_wilayah'])->name('.delete_wilayah');
+
         });
 
         Route::prefix('data')->name('.data')->group(function(){
@@ -126,8 +147,28 @@ Route::middleware('auth')->group(function(){
             Route::get('get_detail',[PetugasData::class,'get_detail'])->name('.get_detail');
             Route::get('data/get_detail',[PetugasData::class,'data_get_detail'])->name('.data.get_detail');
             Route::post('post_detail',[PetugasData::class,'post_detail'])->name('.post_detail');
-            Route::patch('update_detail',[PetugasData::class,'update_detail'])->name('.update_detail');
+            Route::post('update_detail',[PetugasData::class,'update_detail'])->name('.update_detail');
             Route::delete('delete_detail',[PetugasData::class,'delete_detail'])->name('.delete_detail');
+
+            Route::get('wilayah_by_id',[PetugasData::class,'wilayah_by_id'])->name('.wilayah_by_id');
+            Route::post('wilayah_by_id',[PetugasData::class,'post_wilayah_by_id'])->name('.post_wilayah_by_id');
+            Route::delete('wilayah_by_id',[PetugasData::class,'delete_wilayah_by_id'])->name('.delete_wilayah_by_id');
+            Route::get('bencana_id',[PetugasData::class,'bencana_id'])->name('.bencana_id');
+
+            Route::get('tahun_by_id',[PetugasData::class,'tahun_by_id'])->name('.tahun_by_id');
+
+            Route::get('show_data',[PetugasData::class,'show_data'])->name('.show_data');
+
+            //show_data_wilayah_by_bencana
+            Route::get('wilayah_by_bencana',[PetugasData::class,'wilayah_by_bencana'])->name('.wilayah_by_bencana');
+            //show_data_tahun_by_wilayah_by_bencana
+            Route::get('tahun_by_wilayah_by_bencana',[PetugasData::class,'tahun_by_wilayah_by_bencana'])->name('.tahun_by_wilayah_by_bencana');
+            //show_data_tahun_by_wilayah_by_bencana
+            Route::get('data_tahun_by_wilayah_by_bencana',[PetugasData::class,'data_tahun_by_wilayah_by_bencana'])->name('.data_tahun_by_wilayah_by_bencana');
+
+            Route::get('show_wilayah_by_bencana',[PetugasData::class,'show_wilayah_by_bencana'])->name('.show_wilayah_by_bencana');
+            Route::get('show_tahun_by_wilayah_by_bencana',[PetugasData::class,'show_tahun_by_wilayah_by_bencana'])->name('.show_tahun_by_wilayah_by_bencana');
+            Route::get('show_data_tahun_by_wilayah_by_bencana',[PetugasData::class,'show_data_tahun_by_wilayah_by_bencana'])->name('.show_data_tahun_by_wilayah_by_bencana');
         });
 
         Route::patch('update_bencana',[PetugasBencana::class,'update_bencana'])->name('.update_bencana');

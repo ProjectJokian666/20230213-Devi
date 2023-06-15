@@ -31,9 +31,9 @@
 					<table class="table datatable table-sm text-center">
 						<thead>
 							<tr>
-								<th scope="col">No.</th>
-								<th scope="col">Wilayah</th>
-								<th scope="col">Aksi</th>
+								<th class="text-center">No.</th>
+								<th class="text-center">Wilayah</th>
+								<th class="text-center">Aksi</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -42,7 +42,7 @@
 								<td>{{$loop->iteration}}</td>
 								<td>{{$wilayah->nama_wilayah}}</td>
 								<td>
-									<button type="button" class="btn btn-sm btn-info text-white" data-bs-toggle="modal" data-bs-target="#update_wilayah_{{$wilayah->id}}">UBAH DATA</button>
+									<button type="button" class="btn btn-sm btn-warning text-white" data-bs-toggle="modal" data-bs-target="#update_wilayah_{{$wilayah->id}}"><i class="bi bi-pencil"></i></button>
 									@include('petugas.wilayah.update')
 								</td>
 							</tr>

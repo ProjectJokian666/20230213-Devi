@@ -29,8 +29,8 @@
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">BATAL</button>
-          <button type="submit" class="btn btn-primary">UBAH</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="ri-close-fill"></i></button>
+          <button type="submit" class="btn btn-success"><i class="ri ri-check-fill"></i></button>
         </div>
 
       </form>

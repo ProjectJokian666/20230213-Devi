@@ -5,7 +5,7 @@
     <li class="nav-item">
       <a class="nav-link " href="{{url('/')}}">
         <i class="bi bi-grid"></i>
-        <span>Dashboard</span>
+        <span>Maps Gis</span>
       </a>
     </li>
     <!-- End Dashboard Nav -->

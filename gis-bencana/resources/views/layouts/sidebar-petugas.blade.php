@@ -15,6 +15,6 @@
 <li class="nav-item">
   <a class="nav-link collapsed" href="{{url('petugas/data')}}">
     <i class="bi bi-book-half"></i>
-    <span>Rekap Data</span>
+    <span>Data Terdampak</span>
   </a>
 </li>

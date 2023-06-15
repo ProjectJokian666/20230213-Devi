@@ -28,7 +28,7 @@
 				<div class="card-body">
 					<div class="d-flex mt-4 mb-4 justify-content-between">
 						<h5>Tambah Data Wilayah</h5>
-						<a href="{{route('admin.wilayah')}}" class="btn btn-sm btn-primary">KEMBALI</a>
+						<a href="{{route('admin.wilayah')}}" class="btn btn-sm btn-primary"><i class="bi bi-arrow-left"></i></a>
 					</div>
 					<form action="{{url('admin/add_wilayah')}}" method="POST" enctype="multipart/form-data">
 						@csrf
@@ -51,7 +51,7 @@
 								
 							</div>
 							<div class="col-sm-9">
-								<button type="submit" class="btn btn-primary">SIMPAN</button>
+								<button type="submit" class="btn btn-success"><i class="ri ri-check-fill"></i></button>
 							</div>
 						</div>
 

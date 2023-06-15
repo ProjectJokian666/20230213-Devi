@@ -23,7 +23,7 @@
 					<input type="date" class="form-control" id="tanggal2" name="tanggal2">
 				</div>
 				<div class="col-3">
-					<button type="button" class="btn btn-primary" id="btn_lihat">Lihat</button>
+					<button type="button" class="btn btn-info text-white" id="btn_lihat"><i class="bi bi-eye"></i></button>
 				</div>
 			</div>
 		</div>

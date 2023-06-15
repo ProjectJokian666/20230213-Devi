@@ -35,7 +35,7 @@
 							</select>
 						</div>
 						<div class="col-6">
-							<button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#create_wilayah">TAMBAH DATA</button>
+							<button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#create_wilayah"><i class="bi bi-plus"></i></button>
 							@include('admin.setwilayahbencana.create')
 							@include('admin.setwilayahbencana.update')
 						</div>
@@ -88,8 +88,8 @@
 					var html = "<tr>"+
 					"<td class='baris'>"+baris+"</td>"+
 					"<td class='nama_wilayah'>"+data.nama_wilayah+"</td>"+
-					"<td><button class='btn btn-info btn-sm text-white' onclick='edit("+data.id_wilayah+")' >EDIT</button>"+
-					"<button class='btn btn-danger btn-sm' onclick='hapus("+data.id_wilayah+")'>HAPUS</button>"+
+					"<td><button class='btn btn-warning btn-sm text-white' onclick='edit("+data.id_wilayah+")' ><i class='bi bi-pencil'></i></button>"+
+					"<button class='btn btn-danger btn-sm' onclick='hapus("+data.id_wilayah+")'><i class='bi bi-trash'></i></button>"+
 					"</td>"+
 					"</tr>"
 					$('tbody').append(html)

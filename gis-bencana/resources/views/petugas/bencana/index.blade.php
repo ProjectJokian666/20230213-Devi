@@ -31,10 +31,10 @@
 					<table class="table datatable table-sm text-center">
 						<thead>
 							<tr>
-								<th scope="col">No.</th>
-								<th scope="col">Nama</th>
-								<th scope="col">Deskripsi</th>
-								<th scope="col">Aksi</th>
+								<th class="text-center">No.</th>
+								<th class="text-center">Nama</th>
+								<th class="text-center">Deskripsi</th>
+								<th class="text-center">Aksi</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -58,7 +58,7 @@
 									}}
 								</td>
 								<td>
-									<button type="button" class="btn btn-sm btn-info text-white" data-bs-toggle="modal" data-bs-target="#update_petugas_{{$bencana->id}}">UBAH DATA</button>
+									<button type="button" class="btn btn-sm btn-warning text-white" data-bs-toggle="modal" data-bs-target="#update_petugas_{{$bencana->id}}"><i class="bi bi-pencil"></i></button>
 									@include('petugas.bencana.update')
 									<!-- <a href="{{url('petugas/bencana/wilayah',$bencana->id)}}" class="btn btn-sm btn-success">WILAYAH</a> -->
 								</td>

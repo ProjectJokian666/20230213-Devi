@@ -21,7 +21,7 @@
 <li class="nav-item">
   <a class="nav-link collapsed" href="{{url('admin/data')}}">
     <i class="bi bi-archive-fill"></i>
-    <span>Rekap Data</span>
+    <span>Data Terdampak</span>
   </a>
 </li>
 <li class="nav-item">

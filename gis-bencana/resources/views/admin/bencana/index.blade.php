@@ -26,7 +26,7 @@
 				<div class="card-body">
 					<div class="d-flex mt-4 mb-4 justify-content-between">
 						<h5>Tabel Bencana</h5>
-						<button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#create_petugas">TAMBAH DATA</button>
+						<button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#create_petugas"><i class="bi bi-plus"></i></button>
 						@include('admin.bencana.create')
 					</div>
 					<!-- Default Table -->
@@ -36,7 +36,7 @@
 								<th scope="col" class="text-center">No.</th>
 								<th scope="col" class="text-center">Nama Bencana</th>
 								<th scope="col" class="text-center">Deskripsi Bencana</th>
-								<th scope="col" class="text-center">Aksi</th>
+								<!-- <th scope="col" class="text-center">Aksi</th> -->
 							</tr>
 						</thead>
 						<tbody>
@@ -52,10 +52,10 @@
 									@endif
 								</td>
 								<td>
-									<button type="button" class="btn btn-sm btn-info text-white" data-bs-toggle="modal" data-bs-target="#update_petugas_{{$value['id']}}">UBAH DATA</button>
-									@include('admin.bencana.update')
-									<button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete_petugas_{{$value['id']}}">HAPUS DATA</button>
-									@include('admin.bencana.delete')
+									<!-- <button type="button" class="btn btn-sm btn-warning text-white" data-bs-toggle="modal" data-bs-target="#update_petugas_{{$value['id']}}"><i class="bi bi-pencil"></i></button> -->
+									<!-- @include('admin.bencana.update') -->
+									<!-- <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete_petugas_{{$value['id']}}"><i class="bi bi-trash"></i></button> -->
+									<!-- @include('admin.bencana.delete') -->
 									<!-- <a href="{{url('admin/bencana/wilayah',$value['id'])}}" class="btn btn-sm btn-success">WILAYAH</a> -->
 								</td>
 							</tr>

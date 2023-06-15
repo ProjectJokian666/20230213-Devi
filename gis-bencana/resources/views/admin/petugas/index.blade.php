@@ -26,7 +26,7 @@
 				<div class="card-body">
 					<div class="d-flex mt-4 mb-4 justify-content-between">
 						<h5>Tabel Petugas</h5>
-						<button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#create_petugas">TAMBAH DATA</button>
+						<button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#create_petugas"><i class="bi bi-plus"></i></button>
 						@include('admin.petugas.create')
 					</div>
 					<!-- Default Table -->
@@ -46,9 +46,9 @@
 								<td>{{$user->name}}</td>
 								<td>{{$user->email}}</td>
 								<td>
-									<button type="button" class="btn btn-sm btn-info text-white" data-bs-toggle="modal" data-bs-target="#update_petugas_{{$user->id}}">UBAH DATA</button>
+									<button type="button" class="btn btn-sm btn-warning text-white" data-bs-toggle="modal" data-bs-target="#update_petugas_{{$user->id}}"><i class="bi bi-pencil"></i></button>
 									@include('admin.petugas.update')
-									<button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete_petugas_{{$user->id}}">HAPUS DATA</button>
+									<button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete_petugas_{{$user->id}}"><i class="bi bi-trash"></i></button>
 									@include('admin.petugas.delete')
 								</td>
 							</tr>
