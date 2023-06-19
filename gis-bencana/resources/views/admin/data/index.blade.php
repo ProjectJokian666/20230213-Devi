@@ -174,6 +174,13 @@
 					let baris = 1
 					$('#data_rekap tbody').empty()
 					data.data.forEach(function(data){
+						var terdampak = ""
+						if (data.deskripsi.length>10) {
+							terdampak = data.deskripsi.slice(0,10)+' ...'
+						}
+						else{
+							terdampak = data.deskripsi.slice(0,10)
+						}
 						var html = "<tr>"+
 						"<td>"+baris+"</td>"+
 						"<td>"+data.tanggal+" "+data.bulan+" "+data.tahun+"</td>"+
@@ -181,7 +188,7 @@
 						"<td>"+data.wilayah+"</td>"+
 						"<td>"+data.terdampak+" jiwa</td>"+
 						"<td>"+Math.round(data.terdampak/data.pembagi*100)+" %</td>"+
-						"<td>"+data.deskripsi+"</td>"+
+						"<td>"+terdampak+"</td>"+
 						"</tr>"
 						$('tbody').append(html)
 						baris+=1;
@@ -208,6 +215,13 @@
 					let baris = 1
 					$('#data_rekap tbody').empty()
 					data.data.forEach(function(data){
+						var terdampak = ""
+						if (data.deskripsi.length>10) {
+							terdampak = data.deskripsi.slice(0,10)+' ...'
+						}
+						else{
+							terdampak = data.deskripsi.slice(0,10)
+						}
 						var html = "<tr>"+
 						"<td>"+baris+"</td>"+
 						"<td>"+data.tanggal+" "+data.bulan+" "+data.tahun+"</td>"+
@@ -215,7 +229,7 @@
 						"<td>"+data.wilayah+"</td>"+
 						"<td>"+data.terdampak+" jiwa</td>"+
 						"<td>"+Math.round(data.terdampak/data.pembagi*100)+" %</td>"+
-						"<td>"+data.deskripsi+"</td>"+
+						"<td>"+terdampak+"</td>"+
 						"</tr>"
 						$('tbody').append(html)
 						baris+=1;
@@ -243,6 +257,13 @@
 					let baris = 1
 					$('#data_rekap tbody').empty()
 					data.data.forEach(function(data){
+						var terdampak = ""
+						if (data.deskripsi.length>10) {
+							terdampak = data.deskripsi.slice(0,10)+' ...'
+						}
+						else{
+							terdampak = data.deskripsi.slice(0,10)
+						}
 						var html = "<tr>"+
 						"<td>"+baris+"</td>"+
 						"<td>"+data.tanggal+" "+data.bulan+" "+data.tahun+"</td>"+
@@ -250,7 +271,7 @@
 						"<td>"+data.wilayah+"</td>"+
 						"<td>"+data.terdampak+" jiwa</td>"+
 						"<td>"+Math.round(data.terdampak/data.pembagi*100)+" %</td>"+
-						"<td>"+data.deskripsi+"</td>"+
+						"<td>"+terdampak+"</td>"+
 						"</tr>"
 						$('tbody').append(html)
 						baris+=1;

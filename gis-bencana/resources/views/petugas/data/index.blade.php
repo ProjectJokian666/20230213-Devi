@@ -209,6 +209,13 @@
 					let baris = 1
 					$('#data_rekap tbody').empty()
 					data.data.forEach(function(data){
+						var tabel_terdampak = ""
+						if (data.deskripsi.length>10) {
+							tabel_terdampak = data.deskripsi.slice(0,10)+' ...'
+						}
+						else{
+							tabel_terdampak = data.deskripsi.slice(0,10)
+						}
 						var data_judul='"'+data.tanggal+" "+data.bulan+" "+data.tahun+'"';
 						var data_deskripsi='"'+data.deskripsi+'"';
 						var tgl_terjadi='"'+data.tgl_terjadi+'"'
@@ -220,7 +227,7 @@
 						"<td>"+data.wilayah+"</td>"+
 						"<td>"+data.terdampak+" orang</td>"+
 						"<td>"+Math.round(data.terdampak/data.pembagi*100)+" %</td>"+
-						"<td>"+data.deskripsi+"</td>"+
+						"<td>"+tabel_terdampak+"</td>"+
 						"<td>"+
 						"<button type='button' class='btn btn-sm btn-warning' onclick='ubah("+tgl_terjadi+","+data.id+","+data.terdampak+","+data_deskripsi+","+data_judul+")'><i class='bi bi-pencil'></i></button>"+
 						"<button type='button' class='btn btn-sm btn-danger' onclick='hapus("+tgl_terjadi+","+data.id+","+data.terdampak+","+data_deskripsi+","+data_judul+")'><i class='bi bi-trash'></i></button>"+
@@ -251,6 +258,13 @@
 					let baris = 1
 					$('#data_rekap tbody').empty()
 					data.data.forEach(function(data){
+						var tabel_terdampak = ""
+						if (data.deskripsi.length>10) {
+							tabel_terdampak = data.deskripsi.slice(0,10)+' ...'
+						}
+						else{
+							tabel_terdampak = data.deskripsi.slice(0,10)
+						}
 						var data_judul='"'+data.tanggal+" "+data.bulan+" "+data.tahun+'"';
 						var data_deskripsi='"'+data.deskripsi+'"';
 						var tgl_terjadi='"'+data.tgl_terjadi+'"'
@@ -262,7 +276,7 @@
 						"<td>"+data.wilayah+"</td>"+
 						"<td>"+data.terdampak+" orang</td>"+
 						"<td>"+Math.round(data.terdampak/data.pembagi*100)+" %</td>"+
-						"<td>"+data.deskripsi+"</td>"+
+						"<td>"+tabel_terdampak+"</td>"+
 						"<td>"+
 						"<button type='button' class='btn btn-sm btn-warning' onclick='ubah("+tgl_terjadi+","+data.id+","+data.terdampak+","+data_deskripsi+","+data_judul+")'><i class='bi bi-pencil'></i></button>"+
 						"<button type='button' class='btn btn-sm btn-danger' onclick='hapus("+tgl_terjadi+","+data.id+","+data.terdampak+","+data_deskripsi+","+data_judul+")'><i class='bi bi-trash'></i></button>"+
@@ -294,6 +308,13 @@
 					let baris = 1
 					$('#data_rekap tbody').empty()
 					data.data.forEach(function(data){
+						var tabel_terdampak = ""
+						if (data.deskripsi.length>10) {
+							tabel_terdampak = data.deskripsi.slice(0,10)+' ...'
+						}
+						else{
+							tabel_terdampak = data.deskripsi.slice(0,10)
+						}
 						var data_judul='"'+data.tanggal+" "+data.bulan+" "+data.tahun+'"';
 						var data_deskripsi='"'+data.deskripsi+'"';
 						var tgl_terjadi='"'+data.tgl_terjadi+'"'
@@ -305,7 +326,7 @@
 						"<td>"+data.wilayah+"</td>"+
 						"<td>"+data.terdampak+" orang</td>"+
 						"<td>"+Math.round(data.terdampak/data.pembagi*100)+" %</td>"+
-						"<td>"+data.deskripsi+"</td>"+
+						"<td>"+tabel_terdampak+"</td>"+
 						"<td>"+
 						"<button type='button' class='btn btn-sm btn-warning' onclick='ubah("+tgl_terjadi+","+data.id+","+data.terdampak+","+data_deskripsi+","+data_judul+")'><i class='bi bi-pencil'></i></button>"+
 						"<button type='button' class='btn btn-sm btn-danger' onclick='hapus("+tgl_terjadi+","+data.id+","+data.terdampak+","+data_deskripsi+","+data_judul+")'><i class='bi bi-trash'></i></button>"+
