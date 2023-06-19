@@ -27,7 +27,7 @@
 			<div class="card">
 				<div class="card-body">
 					<div class="d-flex mt-4 mb-4 justify-content-between">
-						<h5>Tabel Rekap</h5>
+						<h5>Data Terdampak</h5>
 					</div>
 					<div class="col-12 row">
 						<div class="col-3">
@@ -55,8 +55,6 @@
 							<tr>
 								<th class="text-center">No.</th>
 								<th class="text-center">Tanggal</th>
-								<th class="text-center">Bulan</th>
-								<th class="text-center">Tahun</th>
 								<th class="text-center">Nama Bencana</th>
 								<th class="text-center">Wilayah</th>
 								<th class="text-center">Terdampak</th>
@@ -178,9 +176,7 @@
 					data.data.forEach(function(data){
 						var html = "<tr>"+
 						"<td>"+baris+"</td>"+
-						"<td>"+data.tanggal+"</td>"+
-						"<td>"+data.bulan+"</td>"+
-						"<td>"+data.tahun+"</td>"+
+						"<td>"+data.tanggal+" "+data.bulan+" "+data.tahun+"</td>"+
 						"<td>"+data.nama_bencana+"</td>"+
 						"<td>"+data.wilayah+"</td>"+
 						"<td>"+data.terdampak+" jiwa</td>"+
@@ -214,9 +210,7 @@
 					data.data.forEach(function(data){
 						var html = "<tr>"+
 						"<td>"+baris+"</td>"+
-						"<td>"+data.tanggal+"</td>"+
-						"<td>"+data.bulan+"</td>"+
-						"<td>"+data.tahun+"</td>"+
+						"<td>"+data.tanggal+" "+data.bulan+" "+data.tahun+"</td>"+
 						"<td>"+data.nama_bencana+"</td>"+
 						"<td>"+data.wilayah+"</td>"+
 						"<td>"+data.terdampak+" jiwa</td>"+
@@ -251,9 +245,7 @@
 					data.data.forEach(function(data){
 						var html = "<tr>"+
 						"<td>"+baris+"</td>"+
-						"<td>"+data.tanggal+"</td>"+
-						"<td>"+data.bulan+"</td>"+
-						"<td>"+data.tahun+"</td>"+
+						"<td>"+data.tanggal+" "+data.bulan+" "+data.tahun+"</td>"+
 						"<td>"+data.nama_bencana+"</td>"+
 						"<td>"+data.wilayah+"</td>"+
 						"<td>"+data.terdampak+" jiwa</td>"+

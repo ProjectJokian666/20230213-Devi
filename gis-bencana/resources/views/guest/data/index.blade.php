@@ -27,7 +27,7 @@
 			<div class="card">
 				<div class="card-body">
 					<div class="d-flex mt-4 mb-4 justify-content-between">
-						<h5>Tabel Rekap</h5>
+						<h5>Data Terdampak</h5>
 					</div>
 					<div class="col-12 row">
 						<div class="col-3">

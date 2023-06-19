@@ -25,7 +25,7 @@
 			<div class="card">
 				<div class="card-body">
 					<div class="d-flex mt-4 mb-4 justify-content-between">
-						<h5>Tabel Rekap</h5>
+						<h5>Data Terdampak</h5>
 						<button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#create_data"><i class="bi bi-plus"></i></button>
 						@include('petugas.data.create')
 						@include('petugas.data.update')
