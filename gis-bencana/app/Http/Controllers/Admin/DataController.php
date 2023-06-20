@@ -16,6 +16,41 @@ use Illuminate\Support\Facades\DB;
 
 class DataController extends Controller
 {
+    public function all_data()
+    {
+        $all_wilayah=0;
+        foreach (Wilayah::all() as $key => $value) {
+            $bencana_per_wilayah = BencanaPerWilayah::where('id_bencana','=',request()->id_bencana)->where('id_wilayah','=',$value['id'])->get();
+            foreach($bencana_per_wilayah as $key_bpw => $value_bpw){
+                $data_bencana_per_wilayah = DataBencanaPerWilayah::where('id_bencana_per_wilayah','=',$value_bpw['id_bencana_per_wilayah'])->get();
+                foreach ($data_bencana_per_wilayah as $key_dbpw => $value_dbpw) {
+                    $all_wilayah += $value_dbpw['jumlah'];
+                }
+            }
+        }
+        $dbpw = DataBencanaPerWilayah::
+        leftjoin('bencana_per_wilayah','data_bencana_per_wilayah.id_bencana_per_wilayah','bencana_per_wilayah.id_bencana_per_wilayah')->
+        leftjoin('bencana','bencana_per_wilayah.id_bencana','bencana.id')->
+        leftjoin('wilayah','bencana_per_wilayah.id_wilayah','wilayah.id')->
+        orderBy('tgl_terjadi','DESC')->
+        get();
+        $data_bencana_per_wilayah=array();
+        $arr_bulan = array('Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember');
+        foreach ($dbpw as $key => $value) {
+            array_push($data_bencana_per_wilayah,[
+                'tanggal'=>DATE('d',strtotime($value->tgl_terjadi)),
+                'bulan'=>$arr_bulan[DATE('m',strtotime($value->tgl_terjadi))-1],
+                'tahun'=>DATE('Y',strtotime($value->tgl_terjadi)),
+                'nama_bencana'=>$value->nama_bencana,
+                'wilayah'=>$value->nama_wilayah,
+                'terdampak'=>$value->jumlah,
+                'deskripsi'=>$value->deskripsi,
+                'pembagi'=>$all_wilayah,
+            ]);
+        }
+
+        return $data_bencana_per_wilayah;
+    }
     public function data()
     {
         if (Auth::check()) {
@@ -26,6 +61,7 @@ class DataController extends Controller
             $data = [
                 'bencana' => Bencana::all(),
                 'data'=>DataBencanaPerWilayah::all(),
+                'all_data'=>$this->all_data(),
             ];
 
             return view('Admin.data.index',compact('data'));

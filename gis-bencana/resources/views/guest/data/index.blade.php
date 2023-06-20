@@ -47,6 +47,7 @@
 						</div>
 						<div class="col-3" id="show_filter_button">
 							<button id="show_filter_button" class="btn btn-info text-white"><i class="bi bi-eye"></i></button>
+							<a href="{{url('data')}}" class="btn btn-primary text-white"><i class="ri-loader-3-fill"></i></a>
 						</div>
 					</div>
 					<!-- Default Table -->
@@ -62,7 +63,25 @@
 								<th class="text-center">Deskripsi</th>
 							</tr>
 						</thead>
-						<tbody></tbody>
+						<tbody>
+							@foreach($data['all_data'] as $key => $value)
+							<tr>
+								<td>{{$loop->iteration}}</td>
+								<td>{{$value['tanggal']}} {{$value['bulan']}} {{$value['tahun']}}</td>
+								<td>{{$value['nama_bencana']}}</td>
+								<td>{{$value['wilayah']}}</td>
+								<td>{{$value['terdampak']}}</td>
+								<td>{{$value['pembagi']}}</td>
+								<td>
+									@if(strlen($value['deskripsi'])>=20)
+									{{substr($value['deskripsi'],0,20)}}...
+									@else
+									{{$value['deskripsi']}}
+									@endif
+								</td>
+							</tr>
+							@endforeach
+						</tbody>
 					</table>
 					<!-- End Default Table Example -->
 				</div>
@@ -143,7 +162,7 @@
 				})
 				if (kondisi_tahun.length>0) {
 					// console.log(kondisi_tahun)
-					show_data()
+					// show_data()
 				}
 			},
 			error:function(data){

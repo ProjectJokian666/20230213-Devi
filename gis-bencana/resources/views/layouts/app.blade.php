@@ -9,7 +9,7 @@
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="{{asset('NiceAdmin/assets/img/favicon.png')}}" rel="icon">
+  <link href="{{asset('favicon.png')}}" rel="icon">
   <link href="{{asset('NiceAdmin/assets/img/apple-touch-icon.png')}}" rel="apple-touch-icon">
 
   <!-- Vendor CSS Files -->

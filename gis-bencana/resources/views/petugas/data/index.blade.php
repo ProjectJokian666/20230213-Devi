@@ -48,6 +48,7 @@
 						</div>
 						<div class="col-3" id="show_filter_button">
 							<button id="show_filter_button" class="btn btn-info text-white"><i class="bi bi-eye"></i></button>
+							<a href="{{url('petugas/data')}}" class="btn btn-primary text-white"><i class="ri-loader-3-fill"></i></a>
 						</div>
 					</div>
 					<!-- Default Table -->
@@ -64,7 +65,29 @@
 								<th class="text-center">Aksi</th>
 							</tr>
 						</thead>
-						<tbody></tbody>
+						<tbody>
+							@foreach($data['all_data'] as $key => $value)
+							<tr>
+								<td>{{$loop->iteration}}</td>
+								<td>{{$value['tanggal']}} {{$value['bulan']}} {{$value['tahun']}}</td>
+								<td>{{$value['nama_bencana']}}</td>
+								<td>{{$value['wilayah']}}</td>
+								<td>{{$value['terdampak']}}</td>
+								<td>{{$value['pembagi']}}</td>
+								<td>
+									@if(strlen($value['deskripsi'])>=20)
+									{{substr($value['deskripsi'],0,20)}}...
+									@else
+									{{$value['deskripsi']}}
+									@endif
+								</td>
+								<td class="row">
+									<button type='button' class='btn btn-sm btn-warning col-6' onclick="ubah($value['tgl_terjadi'],$value['id'],$value['terdampak'],$value['data_deskripsi'],$value['data_judul'])"><i class='bi bi-pencil'></i></button>
+									<button type='button' class='btn btn-sm btn-danger col-6' onclick="hapus($value['tgl_terjadi'],$value['id'],$value['terdampak'],$value['data_deskripsi'],$value['data_judul'])"><i class='bi bi-trash'></i></button>
+								</td>
+							</tr>
+							@endforeach
+						</tbody>
 					</table>
 					<!-- End Default Table Example -->
 				</div>
@@ -178,7 +201,7 @@
 				})
 				if (kondisi_tahun.length>0) {
 					// console.log(kondisi_tahun)
-					show_data()
+					// show_data()
 				}
 			},
 			error:function(data){
@@ -187,9 +210,6 @@
 		})
 	}
 
-	$('#filter_wilayah').on('change',function(){
-		show_data()
-	})
 	function show_data() {
 		var bencana = $('#filter_bencana').val()
 		var wilayah = $('#filter_wilayah').val()
@@ -327,9 +347,9 @@
 						"<td>"+data.terdampak+" orang</td>"+
 						"<td>"+Math.round(data.terdampak/data.pembagi*100)+" %</td>"+
 						"<td>"+tabel_terdampak+"</td>"+
-						"<td>"+
-						"<button type='button' class='btn btn-sm btn-warning' onclick='ubah("+tgl_terjadi+","+data.id+","+data.terdampak+","+data_deskripsi+","+data_judul+")'><i class='bi bi-pencil'></i></button>"+
-						"<button type='button' class='btn btn-sm btn-danger' onclick='hapus("+tgl_terjadi+","+data.id+","+data.terdampak+","+data_deskripsi+","+data_judul+")'><i class='bi bi-trash'></i></button>"+
+						"<td class='row'>"+
+						"<button type='button' class='btn btn-sm btn-warning col-6' onclick='ubah("+tgl_terjadi+","+data.id+","+data.terdampak+","+data_deskripsi+","+data_judul+")'><i class='bi bi-pencil'></i></button>"+
+						"<button type='button' class='btn btn-sm btn-danger col-6' onclick='hapus("+tgl_terjadi+","+data.id+","+data.terdampak+","+data_deskripsi+","+data_judul+")'><i class='bi bi-trash'></i></button>"+
 						"</td>"+
 						"</tr>"
 						$('tbody').append(html)
@@ -349,6 +369,6 @@
 		show_data()
 		// console.log($('#filter_bencana').val(),$('#filter_wilayah').val()==null,$('#filter_tahun').val())
 	})
-	
+
 </script>
 @endpush
