@@ -51,7 +51,7 @@
 						</div>
 					</div>
 					<!-- Default Table -->
-					<table class="table datatable table-sm text-center" id="data_rekap">
+					<table class="table datatable table-sm text-center table-striped table-bordered border-primary" id="data_rekap">
 						<thead>
 							<tr>
 								<th class="text-center">No.</th>
@@ -67,11 +67,11 @@
 							@foreach($data['all_data'] as $key => $value)
 							<tr>
 								<td>{{$loop->iteration}}</td>
-								<td>{{$value['tanggal']}} {{$value['bulan']}} {{$value['tahun']}}</td>
+								<td style="text-align: left !important">{{$value['tanggal']}} {{$value['bulan']}} {{$value['tahun']}}</td>
 								<td>{{$value['nama_bencana']}}</td>
 								<td>{{$value['wilayah']}}</td>
-								<td>{{$value['terdampak']}}</td>
-								<td>{{$value['pembagi']}}</td>
+								<td>{{$value['terdampak']}} jiwa</td>
+								<td>{{round($value['terdampak']/$value['pembagi']*100,2)}} %</td>
 								<td>
 									@if(strlen($value['deskripsi'])>=20)
 									{{substr($value['deskripsi'],0,20)}}...

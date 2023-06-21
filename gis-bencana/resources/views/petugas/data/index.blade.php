@@ -52,7 +52,7 @@
 						</div>
 					</div>
 					<!-- Default Table -->
-					<table class="table datatable table-sm text-center" id="data_rekap">
+					<table class="table datatable table-sm text-center table-bordered border-primary table-striped" id="data_rekap">
 						<thead>
 							<tr>
 								<th class="text-center">No.</th>
@@ -69,11 +69,11 @@
 							@foreach($data['all_data'] as $key => $value)
 							<tr>
 								<td>{{$loop->iteration}}</td>
-								<td>{{$value['tanggal']}} {{$value['bulan']}} {{$value['tahun']}}</td>
+								<td style="text-align: left !important">{{$value['tanggal']}} {{$value['bulan']}} {{$value['tahun']}}</td>
 								<td>{{$value['nama_bencana']}}</td>
 								<td>{{$value['wilayah']}}</td>
-								<td>{{$value['terdampak']}}</td>
-								<td>{{$value['pembagi']}}</td>
+								<td>{{$value['terdampak']}} jiwa</td>
+								<td>{{round($value['terdampak']/$value['pembagi']*100,2)}} %</td>
 								<td>
 									@if(strlen($value['deskripsi'])>=20)
 									{{substr($value['deskripsi'],0,20)}}...
@@ -81,9 +81,11 @@
 									{{$value['deskripsi']}}
 									@endif
 								</td>
-								<td class="row">
-									<button type='button' class='btn btn-sm btn-warning col-6' onclick="ubah($value['tgl_terjadi'],$value['id'],$value['terdampak'],$value['data_deskripsi'],$value['data_judul'])"><i class='bi bi-pencil'></i></button>
-									<button type='button' class='btn btn-sm btn-danger col-6' onclick="hapus($value['tgl_terjadi'],$value['id'],$value['terdampak'],$value['data_deskripsi'],$value['data_judul'])"><i class='bi bi-trash'></i></button>
+								<td>
+									<div class="row px-2">
+										<button type='button' class='btn btn-sm btn-warning col-6' onclick="ubah($value['tgl_terjadi'],$value['id'],$value['terdampak'],$value['data_deskripsi'],$value['data_judul'])"><i class='bi bi-pencil'></i></button>
+										<button type='button' class='btn btn-sm btn-danger col-6' onclick="hapus($value['tgl_terjadi'],$value['id'],$value['terdampak'],$value['data_deskripsi'],$value['data_judul'])"><i class='bi bi-trash'></i></button>
+									</div>
 								</td>
 							</tr>
 							@endforeach

@@ -28,6 +28,7 @@ use App\Http\Controllers\Guest\InformasiController as Informasi;
 
 Route::get('/',[Dashboard::class,'index'])->name('index');
 Route::get('get_maps',[Dashboard::class,'get_maps'])->name('get_maps');
+Route::get('get_maps_fix',[Dashboard::class,'get_maps_fix'])->name('get_maps_fix');
 
 Route::prefix('peta')->name('peta.')->group(function(){
     Route::get('',[Peta::class,'peta'])->name('peta');

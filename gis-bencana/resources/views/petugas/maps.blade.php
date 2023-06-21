@@ -1,18 +1,17 @@
 <script type="text/javascript">
 	let data_wilayah="";
 	let a = 0;
-	let bencana = "";
-	let tanggal1 = "";
-	let tanggal2 = "";
-	$('#btn_lihat').on('click',function(){
-		// console.log(a+=1);
-		bencana = $('#bencana').val()
-		tanggal1 = $('#tanggal1').val()
-		tanggal2 = $('#tanggal2').val()
-		// console.log(bencana);
-		// console.log(tanggal1);
-		// console.log(tanggal2);
 
+	let filter_bencana = "";
+	let filter_wilayah = "";
+	let filter_tahun = "";
+	
+	$('#filter_button').on('click',function(){
+		filter_bencana = $('#filter_bencana').val()
+		filter_wilayah = $('#filter_wilayah').val()
+		filter_tahun = $('#filter_tahun').val()
+
+		// console.log(a+=1,filter_bencana,filter_wilayah,filter_tahun);
 		show_peta()
 	});
 
@@ -32,28 +31,22 @@
 
 	show_peta()
 	function show_peta(){
-		// console.log('load_peta')
+
 		if (map.getSource('data_source')) {
 			map.removeLayer('outline')
 			map.removeLayer('fill_isi')
 			map.removeSource('data_source');
-			// console.log('masuk if')
-			// map.removeLayer('outline')
-			// map.removeLayer('maine')
-			// map.removeSource('data_source');
 
-			// console.log(bencana);
-			// console.log(tanggal1);
-			// console.log(tanggal2);
 			$.ajax({
-				url:"{{route('get_maps')}}",
+				url:"{{route('get_maps_fix')}}",
 				type:"GET",
 				data:{
-					bencana : bencana,
-					tanggal1 : tanggal1,
-					tanggal2 : tanggal2,
+					filter_bencana : filter_bencana,
+					filter_wilayah : filter_wilayah,
+					filter_tahun : filter_tahun,
 				},
 				success:function(data){
+					// console.log(data,filter_bencana,filter_wilayah,filter_tahun);
 					data_wilayah = data.wilayah;
 					data_wilayah = JSON.parse('['+data_wilayah+']');
 					map.addSource('data_source',{
@@ -103,19 +96,20 @@
 
 		}
 		else{
-			bencana = $('#bencana').val()
-			tanggal1 = $('#tanggal1').val()
-			tanggal2 = $('#tanggal2').val()
+			filter_bencana = $('#filter_bencana').val()
+			filter_wilayah = $('#filter_wilayah').val()
+			filter_tahun = $('#filter_tahun').val()
 			map.on('load',function(){
 				$.ajax({
-					url:"{{route('get_maps')}}",
+					url:"{{route('get_maps_fix')}}",
 					type:"GET",
 					data:{
-						bencana : bencana,
-						tanggal1 : tanggal1,
-						tanggal2 : tanggal2,
+						filter_bencana : filter_bencana,
+						filter_wilayah : filter_wilayah,
+						filter_tahun : filter_tahun,
 					},
 					success:function(data){
+						// console.log(data);
 						data_wilayah = data.wilayah;
 						data_wilayah = JSON.parse('['+data_wilayah+']');
 						map.addSource('data_source',{
@@ -173,7 +167,8 @@
 									.setHTML(
 										'<p class"text-center">'+
 										'<h6><b>'+feature.properties.nama+'</b></h6>'+
-										'<h6><b>'+feature.properties.data_bencana+' %</b></h6>'+
+										'<h6><b> Terdampak '+feature.properties.terdampak+' Jiwa </b></h6>'+
+										'<h6><b> Persentase '+feature.properties.data_bencana+' %</b></h6>'+
 										'</p>'
 										)
 									.addTo(map);
