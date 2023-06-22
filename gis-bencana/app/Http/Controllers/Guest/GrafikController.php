@@ -10,17 +10,111 @@ use App\Models\BencanaPerWilayah;
 use App\Models\DataBencanaPerWilayah;
 use App\Models\Wilayah;
 
+use DB;
+
 class GrafikController extends Controller
 {
     public function grafik()
     {   
         // dd($data,$data['Bencana'],json_encode($data['Bencana']),$data['Rinci'],json_encode($data['Rinci']));
         // return view('guest.grafik.index',compact('data'));
-        return view('guest.grafik.index');
+        $data = [
+            'filter_tahun' => DataBencanaPerWilayah::select(DB::raw('YEAR(tgl_terjadi) as tahun'))->groupBy(DB::raw('YEAR(tgl_terjadi)'))->get(),
+        ];
+        // dd($data);
+        return view('guest.grafik.index',compact('data'));
         // return view('guest.grafik.index2',compact('data'));
     }
-
     public function get_grafik()
+    {
+        $data_bencana=[];
+        $rincian_data_bencana=[];
+
+        if (request()->tahun) {
+            foreach(Bencana::all() as $key => $value){
+                $jumlah_bencana = 0;
+                foreach (BencanaPerWilayah::where('id_bencana',$value->id)->get() as $key_bpw => $value_bpw) {
+                    foreach (DataBencanaPerWilayah::where('id_bencana_per_wilayah',$value_bpw->id_bencana_per_wilayah)->where(DB::RAW('YEAR(tgl_terjadi)'),request()->tahun)->get() as $key_dbpw => $value_dbpw) {
+                        $jumlah_bencana = $jumlah_bencana+$value_dbpw->jumlah;
+                    }
+                }
+                array_push($data_bencana,[
+                    'name'=>strtoupper($value->nama_bencana),
+                    'y'=>$jumlah_bencana,
+                    "drilldown"=>strtoupper($value->nama_bencana),
+                ]);
+            }
+
+            foreach(Bencana::all() as $key => $value){
+                $jumlah_bencana = 0;
+                $rincian_data_wilayah= [];
+                foreach (Wilayah::all() as $key_wilayah => $value_wilayah) {
+                    $count_jumlah=0;
+                    foreach (BencanaPerWilayah::where('id_bencana',$value->id)->where('id_wilayah',$value_wilayah->id)->get() as $key_bpw => $value_bpw) {
+                        foreach (DataBencanaPerWilayah::where('id_bencana_per_wilayah',$value_bpw->id_bencana_per_wilayah)->where(DB::RAW('YEAR(tgl_terjadi)'),request()->tahun)->get() as $key_dbpw => $value_dbpw) {
+                            $count_jumlah = $count_jumlah+$value_dbpw->jumlah;
+                        }
+                    }
+                    array_push($rincian_data_wilayah,[
+                        strtoupper($value_wilayah->nama_wilayah),
+                        $count_jumlah,
+                    ]);
+                }
+                array_push($rincian_data_bencana,[
+                    "name"=>strtoupper($value->nama_bencana),
+                    "id"=>strtoupper($value->nama_bencana),
+                    "data"=>$rincian_data_wilayah,
+                ]);
+            }
+
+
+        }
+        else{
+            foreach(Bencana::all() as $key => $value){
+                $jumlah_bencana = 0;
+                foreach (BencanaPerWilayah::where('id_bencana',$value->id)->get() as $key_bpw => $value_bpw) {
+                    foreach (DataBencanaPerWilayah::where('id_bencana_per_wilayah',$value_bpw->id_bencana_per_wilayah)->get() as $key_dbpw => $value_dbpw) {
+                        $jumlah_bencana = $jumlah_bencana+$value_dbpw->jumlah;
+                    }
+                }
+                array_push($data_bencana,[
+                    'name'=>strtoupper($value->nama_bencana),
+                    'y'=>$jumlah_bencana,
+                    "drilldown"=>strtoupper($value->nama_bencana),
+                ]);
+            }
+
+            foreach(Bencana::all() as $key => $value){
+                $jumlah_bencana = 0;
+                $rincian_data_wilayah= [];
+                foreach (Wilayah::all() as $key_wilayah => $value_wilayah) {
+                    $count_jumlah=0;
+                    foreach (BencanaPerWilayah::where('id_bencana',$value->id)->where('id_wilayah',$value_wilayah->id)->get() as $key_bpw => $value_bpw) {
+                        foreach (DataBencanaPerWilayah::where('id_bencana_per_wilayah',$value_bpw->id_bencana_per_wilayah)->get() as $key_dbpw => $value_dbpw) {
+                            $count_jumlah = $count_jumlah+$value_dbpw->jumlah;
+                        }
+                    }
+                    array_push($rincian_data_wilayah,[
+                        strtoupper($value_wilayah->nama_wilayah),
+                        $count_jumlah,
+                    ]);
+                }
+                array_push($rincian_data_bencana,[
+                    "name"=>strtoupper($value->nama_bencana),
+                    "id"=>strtoupper($value->nama_bencana),
+                    "data"=>$rincian_data_wilayah,
+                ]);
+            }
+        }
+
+        $data = [
+            'Bencana' => $data_bencana,
+            'Rinci' => $rincian_data_bencana,
+        ];
+        return response()->json($data,200);
+    }
+
+    public function get_grafik2()
     {   
         // dd("a");
         if(request()->tanggal1&&request()->tanggal2){

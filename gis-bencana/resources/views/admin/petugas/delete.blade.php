@@ -3,7 +3,7 @@
     <div class="modal-content">
 
       <div class="modal-header">
-        <h5 class="modal-title">Hapus Data Petugas</h5>
+          <h5 class="modal-title">Hapus Data Petugas</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       
@@ -12,20 +12,7 @@
         @method('delete')
         <div class="modal-body">
           <input type="hidden" name="id" value="{{$user->id}}">
-          <div class="row mb-3">
-            <label for="inputText" class="col-sm-3 col-form-label">Nama</label>
-            <div class="col-sm-9">
-              <input type="text" name="nama" class="form-control" value="{{$user->name}}">
-            </div>
-          </div>
-
-          <div class="row mb-3">
-            <label for="inputEmail" class="col-sm-3 col-form-label">Email</label>
-            <div class="col-sm-9">
-              <input type="email" name="email" class="form-control" value="{{$user->email}}">
-            </div>
-          </div>
-
+          Yakin menghapus petugas {{$user->name}}?. Setelah di hapus data tidak dapat dikembalikan lagi.!!
         </div>
 
         <div class="modal-footer">

@@ -23,7 +23,7 @@ class BencanaController extends Controller
             }
 
             $data = [
-                'bencana' => Bencana::all(),
+                'bencana' => Bencana::orderBy('nama_bencana','ASC')->get(),
             ];
             // dd($data);
             return view('Admin.bencana.index',compact('data'));

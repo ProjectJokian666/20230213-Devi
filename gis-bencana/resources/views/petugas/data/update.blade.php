@@ -59,7 +59,8 @@
         id:$('#update_id').val(),
       },
       success:function(data){
-        show_data()
+          location.reload(true)
+        // show_data()
       },
       error:function(data){
         console.log('gagal',data)

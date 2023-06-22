@@ -144,4 +144,19 @@ class BencanaController extends Controller
             return redirect()->back()->with('sukses','Data Gagal Dihapus');
         }
     }
+    public function delete_bencana($id)
+    {
+        $hapus_data = Bencana::where('id',$id)->delete();
+        if ($hapus_data) {
+            $data = BencanaPerWilayah::where('id_bencana',$id)->get();
+            foreach ($data as $key => $value) {
+                DataBencanaPerWilayah::where('id_bencana_per_wilayah',$value->id_bencana_per_wilayah)->delete();
+            }
+            BencanaPerWilayah::where('id_bencana',$id)->delete();
+            return redirect()->back()->with('sukses','Data Sukses Dihapus');
+        }
+        else{
+            return redirect()->back()->with('sukses','Data Gagal Dihapus');
+        }
+    }
 }

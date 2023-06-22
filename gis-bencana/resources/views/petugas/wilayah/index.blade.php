@@ -43,7 +43,9 @@
 								<td>{{$wilayah->nama_wilayah}}</td>
 								<td>
 									<button type="button" class="btn btn-sm btn-warning text-white" data-bs-toggle="modal" data-bs-target="#update_wilayah_{{$wilayah->id}}"><i class="bi bi-pencil"></i></button>
+									<button type="button" class="btn btn-sm btn-danger text-white" data-bs-toggle="modal" data-bs-target="#delete_wilayah_{{$wilayah->id}}"><i class="bi bi-trash"></i></button>
 									@include('petugas.wilayah.update')
+									@include('petugas.wilayah.delete')
 								</td>
 							</tr>
 							@endforeach

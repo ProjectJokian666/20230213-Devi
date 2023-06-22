@@ -10,23 +10,51 @@
 		<div class="col-12 mt-3 mb-3">
 			<div class="row">
 				<div class="col-3">
-					<select name="filter_bencana" class="form-control" id="filter_bencana">
-						@foreach($data['bencana'] as $key => $value)
-						<option value="{{$value['id']}}">{{$value['nama_bencana']}}</option>
-						@endforeach
-					</select>
+					<div class="row">
+						<div class="col-12">
+							<label>Bencana</label>
+						</div>
+						<div class="col-12">
+							<select name="filter_bencana" class="form-select" id="filter_bencana">
+								@foreach($data['bencana'] as $key => $value)
+								<option value="{{$value['id']}}">{{$value['nama_bencana']}}</option>
+								@endforeach
+							</select>
+						</div>
+					</div>
 				</div>
 				<div class="col-3" id="show_filter_wilayah">
-					<select name="filter_wilayah" class="form-control" id="filter_wilayah">
-					</select>
+					<div class="row">
+						<div class="col-12">
+							<label>Wilayah</label>
+						</div>
+						<div class="col-12">
+							<select name="filter_wilayah" class="form-select" id="filter_wilayah">
+							</select>
+						</div>
+					</div>
 				</div>
 				<div class="col-3" id="show_filter_tahun">
-					<select name="filter_tahun" class="form-control" id="filter_tahun">
-					</select>
+					<div class="row">
+						<div class="col-12">
+							<label>Tahun</label>
+						</div>
+						<div class="col-12">
+							<select name="filter_tahun" class="form-select" id="filter_tahun">
+							</select>
+						</div>
+					</div>
 				</div>
 				<div class="col-3" id="show_filter_button">
-					<button id="filter_button" class="btn btn-info text-white"><i class="bi bi-eye"></i></button>
-					<a href="{{url('/')}}" class="btn btn-primary text-white"><i class="ri-loader-3-fill"></i></a>
+					<div class="row">
+						<div class="col-12">
+							<label>Aksi</label>
+						</div>
+						<div class="col-12">
+							<button id="filter_button" class="btn btn-info text-white"><i class="bi bi-eye"></i></button>
+							<a href="{{url('/')}}" class="btn btn-primary text-white"><i class="bi bi-arrow-repeat"></i></a>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

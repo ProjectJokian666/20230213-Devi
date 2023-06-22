@@ -115,6 +115,7 @@ class AuthenController extends Controller
 			}
 		}
 		if ($request->password==null) {
+			// dd($request->file('img_profil'));
 			if ($request->file('img_profil')) {
 				$get_data = User::find(Auth()->User()->id);
 				if ($get_data->foto==null) {

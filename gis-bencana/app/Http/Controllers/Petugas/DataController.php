@@ -56,6 +56,8 @@ class DataController extends Controller
                 'deskripsi'=>$value->deskripsi,
                 'id_bencana'=>$value->id_bencana,
                 'id_wilayah'=>$value->id_wilayah,
+                'tgl_terjadi'=>$value->tgl_terjadi,
+                'id'=>$value->id_bencana_per_wilayah,
                 'pembagi'=>$this->all_bencana($value->id_bencana),
             ]);
 

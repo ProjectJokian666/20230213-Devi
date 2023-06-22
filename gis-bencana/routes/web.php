@@ -51,7 +51,6 @@ Route::middleware('guest')->group(function(){
         Route::get('',[GuestData::class,'data']);
         Route::get('detail/{id}',[GuestData::class,'detail'])->name('.detail');
 
-
         Route::get('wilayah_by_bencana',[GuestData::class,'wilayah_by_bencana'])->name('.wilayah_by_bencana');
         Route::get('tahun_by_wilayah_by_bencana',[GuestData::class,'tahun_by_wilayah_by_bencana'])->name('.tahun_by_wilayah_by_bencana');
         Route::get('data_tahun_by_wilayah_by_bencana',[GuestData::class,'data_tahun_by_wilayah_by_bencana'])->name('.data_tahun_by_wilayah_by_bencana');
@@ -133,6 +132,7 @@ Route::middleware('auth')->group(function(){
 
         Route::prefix('bencana')->name('.bencana')->group(function(){
             Route::get('',[PetugasBencana::class,'bencana']);
+            Route::get('{id}/delete',[PetugasBencana::class,'delete_bencana']);
 
             Route::get('wilayah/{id}',[PetugasBencana::class,'wilayah'])->name('.wilayah');
             Route::post('wilayah/{id}',[PetugasBencana::class,'show_wilayah'])->name('.show_wilayah');
@@ -176,5 +176,7 @@ Route::middleware('auth')->group(function(){
 
         Route::get('wilayah',[PetugasWilayah::class,'wilayah'])->name('.wilayah');
         Route::patch('update_wilayah',[PetugasWilayah::class,'update_wilayah'])->name('.update_wilayah');
+        Route::get('wilayah/{id}/delete',[PetugasWilayah::class,'delete_wilayah']);
+
     });
 });

@@ -12,7 +12,7 @@
 
             <div class="card-body">
 
-              <form class="row g-3 pt-4 needs-validation" novalidate method="POST" action="{{url('profil')}}">
+              <form class="row g-3 pt-4 needs-validation" novalidate method="POST" action="{{url('profil')}}" enctype="multipart/form-data">
                 @csrf
                 <div class="col-12">
                   <label for="yourName" class="form-label">Nama</label>

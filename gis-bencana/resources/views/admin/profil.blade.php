@@ -12,7 +12,7 @@
 
             <div class="card-body">
 
-              <form class="row g-3 pt-4 needs-validation" novalidate method="POST" action="{{url('profil')}}">
+              <form class="row g-3 pt-4 needs-validation" novalidate method="POST" action="{{url('profil')}}" enctype="multipart/form-data">
                 @csrf
                 <div class="col-12">
                   <label for="yourName" class="form-label">Nama</label>
@@ -47,7 +47,7 @@
                 </div>
                 
                 <div class="col-12 d-flex align-items-center justify-content-center">
-                  <img src="{{asset('Img')}}/{{Auth()->User()->foto}}" alt="Profile" class="rounded-circle" width="100" height="100">
+                  <img src="{{asset('Img')}}/{{Auth()->User()->foto}}" class="rounded-circle" width="100" height="100">
                 </div>
 
                 <div class="col-12">

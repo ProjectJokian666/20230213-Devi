@@ -30,13 +30,14 @@
 						@include('admin.petugas.create')
 					</div>
 					<!-- Default Table -->
-					<table class="table datatable table-sm text-center">
+					<table class="table datatable table-sm text-center table-striped table-bordered">
 						<thead>
 							<tr>
-								<th scope="col">No.</th>
-								<th scope="col">Nama</th>
-								<th scope="col">Email</th>
-								<th scope="col">Aksi</th>
+								<th scope="col" class="text-center">No.</th>
+								<th scope="col" class="text-center">Nama</th>
+								<th scope="col" class="text-center">Email</th>
+								<th scope="col" class="text-center">Level</th>
+								<th scope="col" class="text-center">Aksi</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -45,6 +46,7 @@
 								<td>{{$loop->iteration}}</td>
 								<td>{{$user->name}}</td>
 								<td>{{$user->email}}</td>
+								<td>{{$user->role}}</td>
 								<td>
 									<button type="button" class="btn btn-sm btn-warning text-white" data-bs-toggle="modal" data-bs-target="#update_petugas_{{$user->id}}"><i class="bi bi-pencil"></i></button>
 									@include('admin.petugas.update')

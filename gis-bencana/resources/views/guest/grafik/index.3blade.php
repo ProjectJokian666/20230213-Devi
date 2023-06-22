@@ -25,7 +25,7 @@
 		<div class="col-12 mt-3">
 			<div class="row">
 				<div class="col-6">
-					<select class="form-select" name="filter_tahun" id="filter_tahun">
+					<select class="form-control" name="filter_tahun" id="filter_tahun">
 						<option selected disabled>Pilih Tahun</option>
 						@foreach ($data['filter_tahun'] as $key => $value)
 							<option value="{{$value->tahun}}">{{$value->tahun}}</option>
@@ -54,12 +54,8 @@
 
 	Get_Data_Grafik()
 
-	$("#btn_get_data").on('click',function() {
+	$("#btn_lihat").on('click',function() {
 		Get_Data_Grafik()
-	})
-
-	$("#reset").on('click',function() {
-          location.reload(true)
 	})
 
 	function Get_Data_Grafik(){
@@ -67,14 +63,15 @@
 			url:"{{route('grafik.get_grafik')}}",
 			type:"GET",
 			data : {
-				tahun : $("#filter_tahun").val(),
+				tanggal1 : $("#tanggal1").val(),
+				tanggal2 : $("#tanggal2").val(),
 			},
 			success:function(data){
 				// Bencana = $("#tanggal").val()
 				// Rinci = data
 				// console.log(Bencana,Rinci,data,data.Bencana,data.Rinci)
 				// Bencana = data.Bencana
-				// console.log(data)
+				// console.log(Bencana)
 				// Rinci = data.Rinci
 				// console.log(Rinci)
 				// console.log($("#tanggal").val())

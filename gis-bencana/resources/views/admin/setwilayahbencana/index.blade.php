@@ -28,7 +28,7 @@
 				<div class="card-body">
 					<div class="d-flex mt-4 mb-4 justify-content-between row">
 						<div class="col-6">
-							<select name="bencana" class="form-control" id="bencana">
+							<select name="bencana" class="form-select" id="bencana">
 								@foreach($data['bencana'] as $key => $value)
 								<option value="{{$value['id']}}">{{$value['nama_bencana']}}</option>
 								@endforeach

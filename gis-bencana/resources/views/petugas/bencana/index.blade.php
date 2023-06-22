@@ -61,6 +61,8 @@
 									<button type="button" class="btn btn-sm btn-warning text-white" data-bs-toggle="modal" data-bs-target="#update_petugas_{{$bencana->id}}"><i class="bi bi-pencil"></i></button>
 									@include('petugas.bencana.update')
 									<!-- <a href="{{url('petugas/bencana/wilayah',$bencana->id)}}" class="btn btn-sm btn-success">WILAYAH</a> -->
+									<button type="button" class="btn btn-sm btn-danger text-white" data-bs-toggle="modal" data-bs-target="#delete_bencana_{{$bencana->id}}"><i class="bi bi-trash"></i></button>
+									@include('petugas.bencana.delete')
 								</td>
 							</tr>
 							@endforeach

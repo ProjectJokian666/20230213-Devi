@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 use App\Models\Wilayah;
+use App\Models\BencanaPerWilayah;
+use App\Models\DataBencanaPerWilayah;
 
 class WilayahController extends Controller
 {
@@ -67,6 +69,21 @@ class WilayahController extends Controller
         }
         else{
             return redirect('login');
+        }
+    }
+    public function delete_wilayah($id)
+    {
+        $hapus_data = Wilayah::where('id',$id)->delete();
+        if ($hapus_data) {
+            $data = BencanaPerWilayah::where('id_wilayah',$id)->get();
+            foreach ($data as $key => $value) {
+                DataBencanaPerWilayah::where('id_bencana_per_wilayah',$value->id_bencana_per_wilayah)->delete();
+            }
+            BencanaPerWilayah::where('id_wilayah',$id)->delete();
+            return redirect()->back()->with('sukses','Data Sukses Dihapus');
+        }
+        else{
+            return redirect()->back()->with('sukses','Data Gagal Dihapus');
         }
     }
 }

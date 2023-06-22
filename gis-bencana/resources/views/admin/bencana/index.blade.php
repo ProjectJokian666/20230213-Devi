@@ -30,7 +30,7 @@
 						@include('admin.bencana.create')
 					</div>
 					<!-- Default Table -->
-					<table class="table datatable table-sm text-center">
+					<table class="table datatable table-sm">
 						<thead>
 							<tr>
 								<th scope="col" class="text-center">No.</th>
@@ -42,16 +42,16 @@
 						<tbody>
 							@foreach($data['bencana'] as $key => $value)
 							<tr>
-								<td>{{$loop->iteration}}</td>
-								<td>{{$value['nama_bencana']}}</td>
-								<td>
+								<td class="text-center">{{$loop->iteration}}</td>
+								<td class="text-left">{{$value['nama_bencana']}}</td>
+								<td class="text-center">
 									@if(strlen($value['deskripsi_bencana'])>=20)
 									{{substr($value['deskripsi_bencana'],0,20)}}...
 									@else
 									{{$value['deskripsi_bencana']}}
 									@endif
 								</td>
-								<td>
+								<td class="text-center">
 									<!-- <button type="button" class="btn btn-sm btn-warning text-white" data-bs-toggle="modal" data-bs-target="#update_petugas_{{$value['id']}}"><i class="bi bi-pencil"></i></button> -->
 									<!-- @include('admin.bencana.update') -->
 									<!-- <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete_petugas_{{$value['id']}}"><i class="bi bi-trash"></i></button> -->
