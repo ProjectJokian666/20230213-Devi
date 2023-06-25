@@ -31,7 +31,7 @@
 						@include('admin.wilayah.create')
 					</div>
 					<!-- Default Table -->
-					<table class="table datatable table-sm text-center">
+					<table class="table datatable table-sm text-center" style="font-size: 10pt;">
 						<thead>
 							<tr>
 								<th scope="col" class="text-center">No.</th>

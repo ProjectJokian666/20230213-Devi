@@ -28,7 +28,7 @@
 						<h5>Tabel Bencana</h5>
 					</div>
 					<!-- Default Table -->
-					<table class="table datatable table-sm text-center">
+					<table class="table datatable table-sm text-center" style="font-size: 10pt;">
 						<thead>
 							<tr>
 								<th class="text-center">No.</th>

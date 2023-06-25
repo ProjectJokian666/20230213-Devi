@@ -41,7 +41,7 @@
 						</div>
 					</div>
 					<!-- Default Table -->
-					<table class="table datatable table-sm text-center" id="tbl_wilayah">
+					<table class="table datatable table-sm text-center" id="tbl_wilayah" style="font-size: 10pt;">
 						<thead>
 							<tr>
 								<th scope="col" class="text-center">No.</th>

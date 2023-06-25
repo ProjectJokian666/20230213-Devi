@@ -30,7 +30,7 @@
 						@include('admin.bencana.create')
 					</div>
 					<!-- Default Table -->
-					<table class="table datatable table-sm">
+					<table class="table datatable table-sm" style="font-size: 10pt;">
 						<thead>
 							<tr>
 								<th scope="col" class="text-center">No.</th>

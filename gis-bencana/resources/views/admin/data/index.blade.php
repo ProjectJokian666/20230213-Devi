@@ -31,55 +31,68 @@
 					</div>
 					<div class="col-12 row">
 						<div class="col-3">
-					<div class="row">
-						<div class="col-12">
-							<label>Bencana</label>
+							<div class="row">
+								<div class="col-12">
+									<label>Bencana</label>
+								</div>
+								<div class="col-12">
+									<select name="filter_bencana" class="form-select" id="filter_bencana">
+										@foreach($data['bencana'] as $key => $value)
+										<option value="{{$value['id']}}">{{$value['nama_bencana']}}</option>
+										@endforeach
+									</select>
+								</div>
+							</div>
 						</div>
-						<div class="col-12">
-							<select name="filter_bencana" class="form-select" id="filter_bencana">
-								@foreach($data['bencana'] as $key => $value)
-								<option value="{{$value['id']}}">{{$value['nama_bencana']}}</option>
-								@endforeach
-							</select>
+						<div class="col-3" id="show_filter_wilayah">
+							<div class="row">
+								<div class="col-12">
+									<label>Wilayah</label>
+								</div>
+								<div class="col-12">
+									<select name="filter_wilayah" class="form-select" id="filter_wilayah">
+									</select>
+								</div>
+							</div>
 						</div>
-					</div>
-				</div>
-				<div class="col-3" id="show_filter_wilayah">
-					<div class="row">
-						<div class="col-12">
-							<label>Wilayah</label>
+						<div class="col-2" id="show_filter_tahun">
+							<div class="row">
+								<div class="col-12">
+									<label>Tahun</label>
+								</div>
+								<div class="col-12">
+									<select name="filter_tahun" class="form-select" id="filter_tahun">
+									</select>
+								</div>
+							</div>
 						</div>
-						<div class="col-12">
-							<select name="filter_wilayah" class="form-select" id="filter_wilayah">
-							</select>
+						<div class="col-2" id="show_filter_urut">
+							<div class="row">
+								<div class="col-12">
+									<label>Urutkan Dari</label>
+								</div>
+								<div class="col-12">
+									<select name="filter_urut" class="form-select" id="filter_urut">
+										<option value="ASC">A to Z</option>
+										<option value="DESC">Z to A</option>
+									</select>
+								</div>
+							</div>
 						</div>
-					</div>
-				</div>
-				<div class="col-3" id="show_filter_tahun">
-					<div class="row">
-						<div class="col-12">
-							<label>Tahun</label>
+						<div class="col-2" id="show_filter_button">
+							<div class="row">
+								<div class="col-12">
+									<label>Aksi</label>
+								</div>
+								<div class="col-12">
+									<button id="filter_button" class="btn btn-info text-white"><i class="bi bi-eye"></i></button>
+									<a href="{{url('admin/data')}}" class="btn btn-primary text-white"><i class="bi bi-arrow-repeat"></i></a>
+								</div>
+							</div>
 						</div>
-						<div class="col-12">
-							<select name="filter_tahun" class="form-select" id="filter_tahun">
-							</select>
-						</div>
-					</div>
-				</div>
-				<div class="col-3" id="show_filter_button">
-					<div class="row">
-						<div class="col-12">
-							<label>Aksi</label>
-						</div>
-						<div class="col-12">
-							<button id="filter_button" class="btn btn-info text-white"><i class="bi bi-eye"></i></button>
-							<a href="{{url('admin/data')}}" class="btn btn-primary text-white"><i class="bi bi-arrow-repeat"></i></a>
-						</div>
-					</div>
-				</div>
 					</div>
 					<!-- Default Table -->
-					<table class="table datatable table-sm text-center table-striped table-bordered border-primary" id="data_rekap">
+					<table class="table datatable table-sm text-center table-striped table-bordered border-primary" id="data_rekap" style="font-size: 10pt;">
 						<thead>
 							<tr>
 								<th class="text-center">No.</th>
@@ -203,6 +216,7 @@
 		var bencana = $('#filter_bencana').val()
 		var wilayah = $('#filter_wilayah').val()
 		var tahun = $('#filter_tahun').val()
+		var urut = $('#filter_urut').val()
 		let baris = 1
 		$('#data_rekap tbody').empty()
 		if (bencana!=null&&wilayah==null&&tahun==null) {
@@ -295,6 +309,7 @@
 					id_bencana:bencana,
 					id_wilayah:wilayah,
 					tahun:tahun,
+					urut:urut,
 				},
 				success:function(data) {
 					// console.log(data)

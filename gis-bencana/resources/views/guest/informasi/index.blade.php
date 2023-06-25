@@ -108,7 +108,7 @@
 			<div class="card info-card">
 				<div class="card-body">
 					<h5 class="card-title">Gempa Bumi Dirasakan</h5>
-					<table class="table datatable table-sm">
+					<table class="table datatable table-sm" style="font-size: 10pt;">
 						<thead>
 							<tr>
 								<th scope="col">No.</th>

@@ -44,6 +44,7 @@ class DataController extends Controller
         leftjoin('bencana_per_wilayah','data_bencana_per_wilayah.id_bencana_per_wilayah','bencana_per_wilayah.id_bencana_per_wilayah')->
         leftjoin('bencana','bencana_per_wilayah.id_bencana','bencana.id')->
         leftjoin('wilayah','bencana_per_wilayah.id_wilayah','wilayah.id')->
+        orderBy('nama_bencana','ASC')->
         get();
         $data_bencana_per_wilayah=array();
         $arr_bulan = array('Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember');
@@ -219,6 +220,7 @@ class DataController extends Controller
         where('bencana_per_wilayah.id_bencana','=',request()->id_bencana)->
         where('bencana_per_wilayah.id_wilayah','=',request()->id_wilayah)->
         where(DB::raw('YEAR(tgl_terjadi)'),'=',request()->tahun)->
+        orderBy('nama_bencana',request()->urut)->
         get();
         $data_bencana_per_wilayah=array();
         $arr_bulan = array('Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember');

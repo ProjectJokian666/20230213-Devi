@@ -30,7 +30,7 @@
 						@include('admin.petugas.create')
 					</div>
 					<!-- Default Table -->
-					<table class="table datatable table-sm text-center table-striped table-bordered">
+					<table class="table datatable table-sm text-center table-striped table-bordered" style="font-size: 10pt;">
 						<thead>
 							<tr>
 								<th scope="col" class="text-center">No.</th>
