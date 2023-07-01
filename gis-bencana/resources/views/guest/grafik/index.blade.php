@@ -108,7 +108,7 @@
 			},
 			yAxis: {
 				title: {
-					text: 'Jumlah Terjadi'
+					text: 'Jumlah Korban Terjadi'
 				}
 
 			},
@@ -120,7 +120,7 @@
 					borderWidth: 0,
 					dataLabels: {
 						enabled: true,
-						format: '{point.y:.0f} terjadi'
+						format: '{point.y:.0f} korban'
 					}
 				}
 			},

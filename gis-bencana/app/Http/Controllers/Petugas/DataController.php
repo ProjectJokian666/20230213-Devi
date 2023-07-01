@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\DB;
 
 class DataController extends Controller
 {
-    public function all_bencana($id_bencana)
+    public function all_bencana($id_bencana,$tahun)
     {
         $hasil=0;
         foreach(Wilayah::all() as $key => $value){
@@ -24,6 +24,7 @@ class DataController extends Controller
             leftjoin('bencana_per_wilayah','data_bencana_per_wilayah.id_bencana_per_wilayah','bencana_per_wilayah.id_bencana_per_wilayah')->
             where('id_wilayah',$value->id)->
             where('id_bencana',$id_bencana)->
+            where(DB::raw('YEAR(tgl_terjadi)'),$tahun)->
             get();
             foreach ($data as $key_data => $value_data) {
                 $hasil=$hasil+$value_data->jumlah;
@@ -59,7 +60,7 @@ class DataController extends Controller
                 'id_wilayah'=>$value->id_wilayah,
                 'tgl_terjadi'=>$value->tgl_terjadi,
                 'id'=>$value->id_bencana_per_wilayah,
-                'pembagi'=>$this->all_bencana($value->id_bencana),
+                'pembagi'=>$this->all_bencana($value->id_bencana,DATE('Y',strtotime($value->tgl_terjadi))),
             ]);
 
         }
@@ -443,17 +444,6 @@ class DataController extends Controller
     }
     public function show_data_tahun_by_wilayah_by_bencana()
     {
-        $all_wilayah=0;
-        foreach (Wilayah::all() as $key => $value) {
-            $bencana_per_wilayah = BencanaPerWilayah::where('id_bencana','=',request()->id_bencana)->where('id_wilayah','=',$value['id'])->get();
-            foreach($bencana_per_wilayah as $key_bpw => $value_bpw){
-                $data_bencana_per_wilayah = DataBencanaPerWilayah::where('id_bencana_per_wilayah','=',$value_bpw['id_bencana_per_wilayah'])->get();
-                foreach ($data_bencana_per_wilayah as $key_dbpw => $value_dbpw) {
-                    $all_wilayah += $value_dbpw['jumlah'];
-                }
-            }
-        }
-
         $dbpw = DataBencanaPerWilayah::
         leftjoin('bencana_per_wilayah','data_bencana_per_wilayah.id_bencana_per_wilayah','bencana_per_wilayah.id_bencana_per_wilayah')->
         leftjoin('bencana','bencana_per_wilayah.id_bencana','bencana.id')->
@@ -461,7 +451,6 @@ class DataController extends Controller
         where('bencana_per_wilayah.id_bencana','=',request()->id_bencana)->
         where('bencana_per_wilayah.id_wilayah','=',request()->id_wilayah)->
         where(DB::raw('YEAR(tgl_terjadi)'),'=',request()->tahun)->
-        orderBy('nama_bencana',request()->urut)->
         get();
         $data_bencana_per_wilayah=array();
         $arr_bulan = array('Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember');
@@ -476,7 +465,7 @@ class DataController extends Controller
                 'wilayah'=>$value->nama_wilayah,
                 'terdampak'=>$value->jumlah,
                 'deskripsi'=>$value->deskripsi,
-                'pembagi'=>$all_wilayah,
+                'pembagi'=>$this->all_bencana($value->id_bencana,DATE('Y',strtotime($value->tgl_terjadi))),
             ]);
         }
         $data = [

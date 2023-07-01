@@ -55,7 +55,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-2" id="show_filter_tahun">
+						<div class="col-3" id="show_filter_tahun">
 							<div class="row">
 								<div class="col-12">
 									<label>Tahun</label>
@@ -66,20 +66,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-2" id="show_filter_urut">
-							<div class="row">
-								<div class="col-12">
-									<label>Urutkan Dari</label>
-								</div>
-								<div class="col-12">
-									<select name="filter_urut" class="form-select" id="filter_urut">
-										<option value="ASC">A to Z</option>
-										<option value="DESC">Z to A</option>
-									</select>
-								</div>
-							</div>
-						</div>
-						<div class="col-2" id="show_filter_button">
+						<div class="col-3" id="show_filter_button">
 							<div class="row">
 								<div class="col-12">
 									<label>Aksi</label>
@@ -219,7 +206,6 @@
 		var bencana = $('#filter_bencana').val()
 		var wilayah = $('#filter_wilayah').val()
 		var tahun = $('#filter_tahun').val()
-		var urut = $('#filter_urut').val()
 		let baris = 1
 		$('#data_rekap tbody').empty()
 		if (bencana!=null&&wilayah==null&&tahun==null) {
@@ -312,7 +298,6 @@
 					id_bencana:bencana,
 					id_wilayah:wilayah,
 					tahun:tahun,
-					urut:urut,
 				},
 				success:function(data) {
 					// console.log(data)
