@@ -36,7 +36,8 @@ Route::prefix('peta')->name('peta.')->group(function(){
 });
 Route::prefix('grafik')->name('grafik.')->group(function(){
     Route::get('',[Grafik::class,'grafik'])->name('grafik');
-    Route::get('get_grafik',[Grafik::class,'get_grafik'])->name('get_grafik');
+    Route::get('get_bencana',[Grafik::class,'get_bencana'])->name('get_bencana');
+    Route::get('get_terjadi',[Grafik::class,'get_terjadi'])->name('get_terjadi');
 });
 Route::prefix('informasi')->name('informasi.')->group(function(){
     Route::get('',[Informasi::class,'informasi'])->name('informasi');

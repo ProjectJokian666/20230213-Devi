@@ -15,7 +15,7 @@
 <li class="nav-item">
   <a class="nav-link collapsed" href="{{url('grafik')}}">
     <i class="bi bi-bar-chart"></i>
-    <span>Data Grafik</span>
+    <span>Grafik Terdampak</span>
   </a>
 </li>
 <li class="nav-item">

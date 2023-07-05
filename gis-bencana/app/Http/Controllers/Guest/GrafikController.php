@@ -19,11 +19,91 @@ class GrafikController extends Controller
         // dd($data,$data['Bencana'],json_encode($data['Bencana']),$data['Rinci'],json_encode($data['Rinci']));
         // return view('guest.grafik.index',compact('data'));
         $data = [
-            'filter_tahun' => DataBencanaPerWilayah::select(DB::raw('YEAR(tgl_terjadi) as tahun'))->groupBy(DB::raw('YEAR(tgl_terjadi)'))->get(),
+            'filter_tahun' => DataBencanaPerWilayah::select(DB::raw('YEAR(tgl_terjadi) as tahun'))->groupBy(DB::raw('YEAR(tgl_terjadi)'))->orderBy('tahun','DESC')->get(),
         ];
         // dd($data);
         return view('guest.grafik.index',compact('data'));
         // return view('guest.grafik.index2',compact('data'));
+    }
+    public function get_bencana()
+    {
+        $data_bencana=[];
+        $rincian_data_bencana=[];
+        if (request()->tahun) {
+            foreach(Bencana::all() as $key => $value){
+                $jumlah_bencana = 0;
+                foreach (BencanaPerWilayah::where('id_bencana',$value->id)->get() as $key_bpw => $value_bpw) {
+                    foreach (DataBencanaPerWilayah::where('id_bencana_per_wilayah',$value_bpw->id_bencana_per_wilayah)->where(DB::RAW('YEAR(tgl_terjadi)'),request()->tahun)->get() as $key_dbpw => $value_dbpw) {
+                        $jumlah_bencana ++;
+                    }
+                }
+                array_push($data_bencana,[
+                    'name'=>strtoupper($value->nama_bencana),
+                    'y'=>$jumlah_bencana,
+                    "drilldown"=>strtoupper($value->nama_bencana),
+                ]);
+            }
+        }
+        else{
+            foreach(Bencana::all() as $key => $value){
+                $jumlah_bencana = 0;
+                foreach (BencanaPerWilayah::where('id_bencana',$value->id)->get() as $key_bpw => $value_bpw) {
+                    foreach (DataBencanaPerWilayah::where('id_bencana_per_wilayah',$value_bpw->id_bencana_per_wilayah)->get() as $key_dbpw => $value_dbpw) {
+                        $jumlah_bencana ++;
+                    }
+                }
+                array_push($data_bencana,[
+                    'name'=>strtoupper($value->nama_bencana),
+                    'y'=>$jumlah_bencana,
+                    "drilldown"=>strtoupper($value->nama_bencana),
+                ]);
+            }
+        }
+        $data = [
+            'Bencana' => $data_bencana,
+            'Rinci' => $rincian_data_bencana,
+        ];
+        return response()->json($data,200);
+    }
+    public function get_terjadi()
+    {
+        $data_wilayah=[];
+        $rincian_data_bencana=[];
+        if (request()->tahun) {
+            foreach(Wilayah::all() as $key => $value){
+                $jumlah_wilayah = 0;
+                foreach (BencanaPerWilayah::where('id_wilayah',$value->id)->get() as $key_bpw => $value_bpw) {
+                    foreach (DataBencanaPerWilayah::where('id_bencana_per_wilayah',$value_bpw->id_bencana_per_wilayah)->where(DB::RAW('YEAR(tgl_terjadi)'),request()->tahun)->get() as $key_dbpw => $value_dbpw) {
+                        $jumlah_wilayah = $jumlah_wilayah+$value_dbpw->jumlah;
+                    }
+                }
+                array_push($data_wilayah,[
+                    'name'=>strtoupper($value->nama_wilayah),
+                    'y'=>$jumlah_wilayah,
+                    "drilldown"=>strtoupper($value->nama_wilayah),
+                ]);
+            }
+        }
+        else{
+            foreach(Wilayah::all() as $key => $value){
+                $jumlah_wilayah = 0;
+                foreach (BencanaPerWilayah::where('id_wilayah',$value->id)->get() as $key_bpw => $value_bpw) {
+                    foreach (DataBencanaPerWilayah::where('id_bencana_per_wilayah',$value_bpw->id_bencana_per_wilayah)->get() as $key_dbpw => $value_dbpw) {
+                        $jumlah_wilayah = $jumlah_wilayah+$value_dbpw->jumlah;
+                    }
+                }
+                array_push($data_wilayah,[
+                    'name'=>strtoupper($value->nama_wilayah),
+                    'y'=>$jumlah_wilayah,
+                    "drilldown"=>strtoupper($value->nama_wilayah),
+                ]);
+            }
+        }
+        $data = [
+            'Wilayah' => $data_wilayah,
+            'Rinci' => $rincian_data_bencana,
+        ];
+        return response()->json($data,200);
     }
     public function get_grafik()
     {
