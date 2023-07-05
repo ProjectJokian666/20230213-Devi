@@ -18,12 +18,12 @@
             </div>
           </div>
 
-          <div class="row mb-3">
+          <!-- <div class="row mb-3">
             <label for="deskripsi" class="col-sm-3 col-form-label">Deskripsi</label>
             <div class="col-sm-9">
               <textarea class="form-control" placeholder="Deskripsi Bencana" id="deskripsi" name="deskripsi" style="height: 100px;"></textarea>
             </div>
-          </div>
+          </div> -->
 
         </div>
 

@@ -35,7 +35,7 @@
 							<tr>
 								<th scope="col" class="text-center">No.</th>
 								<th scope="col" class="text-center">Nama Bencana</th>
-								<th scope="col" class="text-center">Deskripsi Bencana</th>
+								<!-- <th scope="col" class="text-center">Deskripsi Bencana</th> -->
 								<!-- <th scope="col" class="text-center">Aksi</th> -->
 							</tr>
 						</thead>
@@ -43,21 +43,21 @@
 							@foreach($data['bencana'] as $key => $value)
 							<tr>
 								<td class="text-center">{{$loop->iteration}}</td>
-								<td class="text-left">{{$value['nama_bencana']}}</td>
-								<td class="text-center">
-									@if(strlen($value['deskripsi_bencana'])>=20)
-									{{substr($value['deskripsi_bencana'],0,20)}}...
-									@else
-									{{$value['deskripsi_bencana']}}
-									@endif
-								</td>
-								<td class="text-center">
+								<td class="text-center">{{$value['nama_bencana']}}</td>
+								<!-- <td class="text-center"> -->
+									<!-- @if(strlen($value['deskripsi_bencana'])>=20) -->
+									<!-- {{substr($value['deskripsi_bencana'],0,20)}}... -->
+									<!-- @else -->
+									<!-- {{$value['deskripsi_bencana']}} -->
+									<!-- @endif -->
+								<!-- </td> -->
+								<!-- <td class="text-center"> -->
 									<!-- <button type="button" class="btn btn-sm btn-warning text-white" data-bs-toggle="modal" data-bs-target="#update_petugas_{{$value['id']}}"><i class="bi bi-pencil"></i></button> -->
 									<!-- @include('admin.bencana.update') -->
 									<!-- <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete_petugas_{{$value['id']}}"><i class="bi bi-trash"></i></button> -->
 									<!-- @include('admin.bencana.delete') -->
 									<!-- <a href="{{url('admin/bencana/wilayah',$value['id'])}}" class="btn btn-sm btn-success">WILAYAH</a> -->
-								</td>
+								<!-- </td> -->
 							</tr>
 							@endforeach
 						</tbody>
